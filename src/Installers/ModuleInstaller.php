@@ -39,7 +39,7 @@ class ModuleInstaller extends LibraryInstaller
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function install(InstalledRepositoryInterface $repo, PackageInterface $package)
     {
@@ -57,7 +57,7 @@ class ModuleInstaller extends LibraryInstaller
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function uninstall(InstalledRepositoryInterface $repo, PackageInterface $package)
     {
