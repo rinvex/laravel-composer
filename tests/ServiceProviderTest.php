@@ -3,19 +3,19 @@
 /*
  * NOTICE OF LICENSE
  *
- * Part of the Rinvex Category Package.
+ * Part of the Rinvex Composer Package.
  *
  * This source file is subject to The MIT License (MIT)
  * that is bundled with this package in the LICENSE file.
  *
- * Package: Rinvex Category Package
+ * Package: Rinvex Composer Package
  * License: The MIT License (MIT)
  * Link:    https://rinvex.com
  */
 
 declare(strict_types=1);
 
-namespace Rinvex\Category\Test;
+namespace Rinvex\Composer\Test;
 
 use ReflectionClass;
 use PHPUnit_Framework_TestCase;

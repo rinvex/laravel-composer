@@ -53,6 +53,11 @@
             "Rinvex\\Composer\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Rinvex\\Composer\\Test\\": "tests"
+        }
+    },
     "config": {
         "preferred-install": "dist",
         "sort-packages": true
