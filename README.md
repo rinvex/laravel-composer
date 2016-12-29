@@ -7,8 +7,8 @@ An intuitive package that utilizes Composer Plugin API to support additional act
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/rinvex/composer.svg?label=Scrutinizer&style=flat-square)](https://scrutinizer-ci.com/g/rinvex/composer/)
 [![Code Climate](https://img.shields.io/codeclimate/github/rinvex/composer.svg?label=CodeClimate&style=flat-square)](https://codeclimate.com/github/rinvex/composer)
 [![Travis](https://img.shields.io/travis/rinvex/composer.svg?label=TravisCI&style=flat-square)](https://travis-ci.org/rinvex/composer)
-[![SensioLabs Insight](https://img.shields.io/sensiolabs/i/f2dca242-eb65-4bcc-8481-cd27ea16c804.svg?label=SensioLabs&style=flat-square)](https://insight.sensiolabs.com/projects/f2dca242-eb65-4bcc-8481-cd27ea16c804)
-[![StyleCI](https://styleci.io/repos/66037019/shield)](https://styleci.io/repos/66037019)
+[![SensioLabs Insight](https://img.shields.io/sensiolabs/i/41a675c3-5cbb-4d23-9b38-80ae2ecd1289.svg?label=SensioLabs&style=flat-square)](https://insight.sensiolabs.com/projects/41a675c3-5cbb-4d23-9b38-80ae2ecd1289)
+[![StyleCI](https://styleci.io/repos/77618130/shield)](https://styleci.io/repos/77618130)
 [![License](https://img.shields.io/packagist/l/rinvex/composer.svg?label=License&style=flat-square)](https://github.com/rinvex/composer/blob/develop/LICENSE)
 
 > **Note:** **Rinvex Composer** also handles any module specific install/uninstall logic, so if your custom **cortext-module** contains for example migrations and/or seeds, it will be automatically executed upon composer installation.
