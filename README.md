@@ -11,7 +11,7 @@ An intuitive package that utilizes Composer Plugin API to support additional act
 [![StyleCI](https://styleci.io/repos/77618130/shield)](https://styleci.io/repos/77618130)
 [![License](https://img.shields.io/packagist/l/rinvex/composer.svg?label=License&style=flat-square)](https://github.com/rinvex/composer/blob/develop/LICENSE)
 
-> **Note:** **Rinvex Composer** also handles any module specific install/uninstall logic, so if your custom **cortext-module** contains for example migrations and/or seeds, it will be automatically executed upon composer installation.
+**Rinvex Composer** also handles any module specific install/uninstall logic, so if your custom **cortext-module** contains for example migrations and/or seeds, it will be automatically executed upon composer installation.
 
 
 ## Installation
