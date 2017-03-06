@@ -29,8 +29,8 @@ class LibraryInstaller extends BaseLibraryInstaller
      * @var array
      */
     protected $paths = [
-        'base'      => '/../../../../../',
-        'app'       => '/../../../../../app/',
+        'base' => '/../../../../../',
+        'app' => '/../../../../../app/',
         'bootstrap' => '/../../../../../bootstrap/',
     ];
 
