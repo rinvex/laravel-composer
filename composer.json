@@ -57,7 +57,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Rinvex\\Composer\\Test\\": "tests"
+            "Rinvex\\Composer\\Tests\\": "tests"
         }
     },
     "config": {
