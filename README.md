@@ -6,7 +6,6 @@
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/rinvex/composer.svg?label=Scrutinizer&style=flat-square)](https://scrutinizer-ci.com/g/rinvex/composer/)
 [![Code Climate](https://img.shields.io/codeclimate/github/rinvex/composer.svg?label=CodeClimate&style=flat-square)](https://codeclimate.com/github/rinvex/composer)
 [![Travis](https://img.shields.io/travis/rinvex/composer.svg?label=TravisCI&style=flat-square)](https://travis-ci.org/rinvex/composer)
-[![SensioLabs Insight](https://img.shields.io/sensiolabs/i/97e0d74b-5f4c-4000-8a06-16a1331aaffb.svg?label=SensioLabs&style=flat-square)](https://insight.sensiolabs.com/projects/97e0d74b-5f4c-4000-8a06-16a1331aaffb)
 [![StyleCI](https://styleci.io/repos/77618130/shield)](https://styleci.io/repos/77618130)
 [![License](https://img.shields.io/packagist/l/rinvex/composer.svg?label=License&style=flat-square)](https://github.com/rinvex/composer/blob/develop/LICENSE)
 
