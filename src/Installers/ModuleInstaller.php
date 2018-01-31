@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Rinvex\Composer\Installers;
 
 use Composer\Package\PackageInterface;
-use Illuminate\Contracts\Console\Kernel;
 use Composer\Repository\InstalledRepositoryInterface;
 
 class ModuleInstaller extends LibraryInstaller
