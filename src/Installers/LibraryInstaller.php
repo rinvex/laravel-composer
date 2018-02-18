@@ -28,7 +28,7 @@ class LibraryInstaller extends BaseLibraryInstaller
      *
      * @return string
      */
-    protected function getPath($path)
+    protected function getPath($path): string
     {
         $pathsFile = __DIR__.'/../../../../../config/rinvex.composer.php';
         $paths = file_exists($pathsFile) ? require $pathsFile : [];

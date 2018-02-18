@@ -3,11 +3,9 @@
 **Rinvex Composer** is an intuitive package that utilizes Composer Plugin API to support additional actions during installation, such as installing packages outside of the default vendor library and running custom scripts during install, update, and uninstall processes.
 
 [![Packagist](https://img.shields.io/packagist/v/rinvex/composer.svg?label=Packagist&style=flat-square)](https://packagist.org/packages/rinvex/composer)
-[![VersionEye Dependencies](https://img.shields.io/versioneye/d/php/rinvex:composer.svg?label=Dependencies&style=flat-square)](https://www.versioneye.com/php/rinvex:composer/)
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/rinvex/composer.svg?label=Scrutinizer&style=flat-square)](https://scrutinizer-ci.com/g/rinvex/composer/)
 [![Code Climate](https://img.shields.io/codeclimate/github/rinvex/composer.svg?label=CodeClimate&style=flat-square)](https://codeclimate.com/github/rinvex/composer)
 [![Travis](https://img.shields.io/travis/rinvex/composer.svg?label=TravisCI&style=flat-square)](https://travis-ci.org/rinvex/composer)
-[![SensioLabs Insight](https://img.shields.io/sensiolabs/i/97e0d74b-5f4c-4000-8a06-16a1331aaffb.svg?label=SensioLabs&style=flat-square)](https://insight.sensiolabs.com/projects/97e0d74b-5f4c-4000-8a06-16a1331aaffb)
 [![StyleCI](https://styleci.io/repos/77618130/shield)](https://styleci.io/repos/77618130)
 [![License](https://img.shields.io/packagist/l/rinvex/composer.svg?label=License&style=flat-square)](https://github.com/rinvex/composer/blob/develop/LICENSE)
 
@@ -131,4 +129,4 @@ Rinvex is a software solutions startup, specialized in integrated enterprise sol
 
 This software is released under [The MIT License (MIT)](LICENSE).
 
-(c) 2016-2017 Rinvex LLC, Some rights reserved.
+(c) 2016-2018 Rinvex LLC, Some rights reserved.
