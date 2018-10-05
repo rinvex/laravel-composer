@@ -2,12 +2,12 @@
 
 **Rinvex Composer** is an intuitive package that utilizes Composer Plugin API to support additional actions during installation, such as installing packages outside of the default vendor library and running custom scripts during install, update, and uninstall processes.
 
-[![Packagist](https://img.shields.io/packagist/v/rinvex/composer.svg?label=Packagist&style=flat-square)](https://packagist.org/packages/rinvex/composer)
-[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/rinvex/composer.svg?label=Scrutinizer&style=flat-square)](https://scrutinizer-ci.com/g/rinvex/composer/)
-[![Code Climate](https://img.shields.io/codeclimate/github/rinvex/composer.svg?label=CodeClimate&style=flat-square)](https://codeclimate.com/github/rinvex/composer)
-[![Travis](https://img.shields.io/travis/rinvex/composer.svg?label=TravisCI&style=flat-square)](https://travis-ci.org/rinvex/composer)
+[![Packagist](https://img.shields.io/packagist/v/rinvex/laravel-composer.svg?label=Packagist&style=flat-square)](https://packagist.org/packages/rinvex/laravel-composer)
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/rinvex/laravel-composer.svg?label=Scrutinizer&style=flat-square)](https://scrutinizer-ci.com/g/rinvex/laravel-composer/)
+[![Code Climate](https://img.shields.io/codeclimate/github/rinvex/laravel-composer.svg?label=CodeClimate&style=flat-square)](https://codeclimate.com/github/rinvex/laravel-composer)
+[![Travis](https://img.shields.io/travis/rinvex/laravel-composer.svg?label=TravisCI&style=flat-square)](https://travis-ci.org/rinvex/laravel-composer)
 [![StyleCI](https://styleci.io/repos/77618130/shield)](https://styleci.io/repos/77618130)
-[![License](https://img.shields.io/packagist/l/rinvex/composer.svg?label=License&style=flat-square)](https://github.com/rinvex/composer/blob/develop/LICENSE)
+[![License](https://img.shields.io/packagist/l/rinvex/laravel-composer.svg?label=License&style=flat-square)](https://github.com/rinvex/laravel-composer/blob/develop/LICENSE)
 
 **Rinvex Composer** also handles any module specific install/uninstall logic, so if your custom **cortext-module** contains for example migrations and/or seeds, it will be automatically executed upon composer installation.
 
@@ -16,7 +16,7 @@
 
 1. Install the package via composer:
     ```shell
-    composer require rinvex/composer
+    composer require rinvex/laravel-composer
     ```
 
 2. **Optionally** you can publish config files by running the following commands:
@@ -55,7 +55,7 @@ This is a powerful feature available for more flexibility and control over packa
 ```json
 "type": "cortex-custom",
 "require": {
-    "rinvex/composer": "^1.0.0"
+    "rinvex/laravel-composer": "^1.0.0"
 },
 "extra": {
     "path": "custom/path/"
