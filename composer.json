@@ -1,7 +1,7 @@
 {
-    "name": "rinvex/composer",
-    "type": "composer-plugin",
+    "name": "rinvex/laravel-composer",
     "description": "Rinvex Composer is an intuitive package that utilizes Composer Plugin API to support additional actions during installation, such as installing packages outside of the default vendor library and running custom scripts during install, update, and uninstall processes.",
+    "type": "composer-plugin",
     "keywords": [
         "rinvex",
         "module",
@@ -19,9 +19,9 @@
     "homepage": "https://rinvex.com",
     "support": {
         "email": "help@rinvex.com",
-        "issues": "https://github.com/rinvex/composer/issues",
-        "source": "https://github.com/rinvex/composer",
-        "docs": "https://github.com/rinvex/composer/README.md"
+        "issues": "https://github.com/rinvex/laravel-composer/issues",
+        "source": "https://github.com/rinvex/laravel-composer",
+        "docs": "https://github.com/rinvex/laravel-composer/README.md"
     },
     "authors": [
         {
@@ -37,7 +37,7 @@
         },
         {
             "name": "The Generous Laravel Community",
-            "homepage": "https://github.com/rinvex/composer/contributors"
+            "homepage": "https://github.com/rinvex/laravel-composer/contributors"
         }
     ],
     "require": {
@@ -47,9 +47,9 @@
         "illuminate/support": "~5.7.0"
     },
     "require-dev": {
-        "codedungeon/phpunit-result-printer": "^0.20.0",
+        "codedungeon/phpunit-result-printer": "^0.22.0",
         "illuminate/container": "~5.7.0",
-        "phpunit/phpunit": "^6.0.0"
+        "phpunit/phpunit": "^7.0.0"
     },
     "autoload": {
         "psr-4": {
@@ -61,15 +61,15 @@
             "Rinvex\\Composer\\Tests\\": "tests"
         }
     },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    },
     "config": {
         "sort-packages": true,
         "preferred-install": "dist",
         "optimize-autoloader": true
     },
     "extra": {
-        "branch-alias": {
-            "dev-master": "1.0-dev"
-        },
         "laravel": {
             "providers": [
                 "Rinvex\\Composer\\Providers\\ComposerServiceProvider"
