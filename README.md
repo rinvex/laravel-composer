@@ -19,9 +19,9 @@
     composer require rinvex/laravel-composer
     ```
 
-2. **Optionally** you can publish config files by running the following commands:
+2. **Optional** if you want to change the configurations:
     ```shell
-    php artisan vendor:publish --tag="rinvex-composer-config"
+    php artisan rinvex:publish:composer
     ```
 
 3. Done!
