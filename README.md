@@ -19,9 +19,9 @@
     composer require rinvex/laravel-composer
     ```
 
-2. **Optionally** you can publish config files by running the following commands:
+2. **Optional** if you want to change the configurations:
     ```shell
-    php artisan vendor:publish --tag="rinvex-composer-config"
+    php artisan rinvex:publish:composer
     ```
 
 3. Done!
@@ -129,4 +129,4 @@ Rinvex is a software solutions startup, specialized in integrated enterprise sol
 
 This software is released under [The MIT License (MIT)](LICENSE).
 
-(c) 2016-2018 Rinvex LLC, Some rights reserved.
+(c) 2016-2019 Rinvex LLC, Some rights reserved.

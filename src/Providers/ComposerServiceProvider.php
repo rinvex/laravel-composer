@@ -9,12 +9,24 @@ use Illuminate\Support\ServiceProvider;
 class ComposerServiceProvider extends ServiceProvider
 {
     /**
+     * The commands to be registered.
+     *
+     * @var array
+     */
+    protected $commands = [
+        PublishCommand::class => 'command.rinvex.composer.publish',
+    ];
+
+    /**
      * {@inheritdoc}
      */
     public function register()
     {
         // Merge config
         $this->mergeConfigFrom(realpath(__DIR__.'/../../config/config.php'), 'rinvex.composer');
+
+        // Register console commands
+        ! $this->app->runningInConsole() || $this->registerCommands();
     }
 
     /**
@@ -22,8 +34,32 @@ class ComposerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if ($this->app->runningInConsole()) {
-            $this->publishes([realpath(__DIR__.'/../../config/config.php') => config_path('rinvex.composer.php')], 'rinvex-composer-config');
+        // Publish Resources
+        ! $this->app->runningInConsole() || $this->publishResources();
+    }
+
+    /**
+     * Publish resources.
+     *
+     * @return void
+     */
+    protected function publishResources(): void
+    {
+        $this->publishes([realpath(__DIR__.'/../../config/config.php') => config_path('rinvex.composer.php')], 'rinvex-composer-config');
+    }
+
+    /**
+     * Register console commands.
+     *
+     * @return void
+     */
+    protected function registerCommands(): void
+    {
+        // Register artisan commands
+        foreach ($this->commands as $key => $value) {
+            $this->app->singleton($value, $key);
         }
+
+        $this->commands(array_values($this->commands));
     }
 }
