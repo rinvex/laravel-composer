@@ -13,7 +13,7 @@ class PublishCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'rinvex:publish:composer {--force : Overwrite any existing files.}';
+    protected $signature = 'rinvex:publish:composer {--force : Overwrite any existing files.} {--R|resource=all}';
 
     /**
      * The console command description.
@@ -29,7 +29,10 @@ class PublishCommand extends Command
      */
     public function handle(): void
     {
-        $this->warn($this->description);
+        $this->alert($this->description);
+
         $this->call('vendor:publish', ['--tag' => 'rinvex-composer-config', '--force' => $this->option('force')]);
+
+        $this->line('');
     }
 }
