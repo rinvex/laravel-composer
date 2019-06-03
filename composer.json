@@ -45,7 +45,7 @@
         "composer-plugin-api": "^1.0.0",
         "illuminate/contracts": "~5.8.0",
         "illuminate/support": "~5.8.0",
-        "rinvex/laravel-support": "^2.0.0"
+        "rinvex/laravel-support": "^2.1.0"
     },
     "require-dev": {
         "codedungeon/phpunit-result-printer": "^0.26.0",
