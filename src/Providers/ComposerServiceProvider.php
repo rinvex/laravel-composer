@@ -39,6 +39,6 @@ class ComposerServiceProvider extends ServiceProvider
     public function boot()
     {
         // Publish Resources
-        $this->publishesConfig('rinvex/composer');
+        $this->publishesConfig('rinvex/laravel-composer');
     }
 }
