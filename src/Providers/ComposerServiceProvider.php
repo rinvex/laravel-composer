@@ -30,7 +30,7 @@ class ComposerServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(realpath(__DIR__.'/../../config/config.php'), 'rinvex.composer');
 
         // Register console commands
-        ! $this->app->runningInConsole() || $this->registerCommands();
+        $this->registerCommands();
     }
 
     /**
