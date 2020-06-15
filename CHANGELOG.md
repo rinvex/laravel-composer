@@ -5,6 +5,9 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 
 
+## [v4.1.0] - 2020-06-15
+- Drop PHP 7.2 & 7.3 support from travis
+
 ## [v4.0.5] - 2020-04-12
 - Fix ServiceProvider registerCommands method compatibility
 
@@ -74,6 +77,7 @@ This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 ## v0.0.1 - 2018-02-18
 - Tag first release
 
+[v4.1.0]: https://github.com/rinvex/laravel-composer/compare/v4.0.5...v4.1.0
 [v4.0.5]: https://github.com/rinvex/laravel-composer/compare/v4.0.4...v4.0.5
 [v4.0.4]: https://github.com/rinvex/laravel-composer/compare/v4.0.3...v4.0.4
 [v4.0.3]: https://github.com/rinvex/laravel-composer/compare/v4.0.2...v4.0.3
