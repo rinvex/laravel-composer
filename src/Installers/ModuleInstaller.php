@@ -12,7 +12,11 @@ use Composer\Repository\InstalledRepositoryInterface;
 class ModuleInstaller extends LibraryInstaller
 {
     /**
-     * {@inheritdoc}
+     * Decides if the installer supports the given type
+     *
+     * @param  string $packageType
+     *
+     * @return bool
      */
     public function supports($packageType)
     {
@@ -20,7 +24,11 @@ class ModuleInstaller extends LibraryInstaller
     }
 
     /**
-     * {@inheritdoc}
+     * Returns the installation path of a package
+     *
+     * @param  PackageInterface $package
+     *
+     * @return string
      */
     public function getInstallPath(PackageInterface $package)
     {
@@ -28,7 +36,14 @@ class ModuleInstaller extends LibraryInstaller
     }
 
     /**
-     * {@inheritdoc}
+     * Installs specific package.
+     *
+     * @param InstalledRepositoryInterface $repo    repository in which to check
+     * @param PackageInterface             $package package instance
+     *
+     * @throws \Exception
+     *
+     * @return void
      */
     public function install(InstalledRepositoryInterface $repo, PackageInterface $package)
     {
@@ -38,7 +53,14 @@ class ModuleInstaller extends LibraryInstaller
     }
 
     /**
-     * {@inheritdoc}
+     * Uninstalls specific package.
+     *
+     * @param InstalledRepositoryInterface $repo    repository in which to check
+     * @param PackageInterface             $package package instance
+     *
+     * @throws \Exception
+     *
+     * @return void
      */
     public function uninstall(InstalledRepositoryInterface $repo, PackageInterface $package)
     {
