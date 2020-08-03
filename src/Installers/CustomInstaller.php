@@ -9,7 +9,11 @@ use Composer\Package\PackageInterface;
 class CustomInstaller extends LibraryInstaller
 {
     /**
-     * {@inheritdoc}
+     * Decides if the installer supports the given type
+     *
+     * @param  string $packageType
+     *
+     * @return bool
      */
     public function supports($packageType)
     {
@@ -17,7 +21,11 @@ class CustomInstaller extends LibraryInstaller
     }
 
     /**
-     * {@inheritdoc}
+     * Returns the installation path of a package
+     *
+     * @param  PackageInterface $package
+     *
+     * @return string
      */
     public function getInstallPath(PackageInterface $package)
     {

@@ -45,7 +45,14 @@ class LibraryInstaller extends BaseLibraryInstaller
     }
 
     /**
-     * {@inheritdoc}
+     * Installs specific package.
+     *
+     * @param InstalledRepositoryInterface $repo    repository in which to check
+     * @param PackageInterface             $package package instance
+     *
+     * @throws \Exception
+     *
+     * @return void
      */
     public function install(InstalledRepositoryInterface $repo, PackageInterface $package)
     {
@@ -53,7 +60,15 @@ class LibraryInstaller extends BaseLibraryInstaller
     }
 
     /**
-     * {@inheritdoc}
+     * Updates specific package.
+     *
+     * @param InstalledRepositoryInterface $repo    repository in which to check
+     * @param PackageInterface             $initial already installed package version
+     * @param PackageInterface             $target  updated version
+     *
+     * @throws InvalidArgumentException if $initial package is not installed
+     *
+     * @return void
      */
     public function update(InstalledRepositoryInterface $repo, PackageInterface $initial, PackageInterface $target)
     {
@@ -61,7 +76,14 @@ class LibraryInstaller extends BaseLibraryInstaller
     }
 
     /**
-     * {@inheritdoc}
+     * Uninstalls specific package.
+     *
+     * @param InstalledRepositoryInterface $repo    repository in which to check
+     * @param PackageInterface             $package package instance
+     *
+     * @throws \Exception
+     *
+     * @return void
      */
     public function uninstall(InstalledRepositoryInterface $repo, PackageInterface $package)
     {
