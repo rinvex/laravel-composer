@@ -85,7 +85,7 @@ class ModuleInstaller extends LibraryInstaller
         $modulesManifestPath = $laravel->bootstrapPath('cache'.DIRECTORY_SEPARATOR.'modules.php');
         $modulesManifest = file_exists($modulesManifestPath) ? require $modulesManifestPath : [];
 
-        if ($status && in_array($package->getPrettyName(), array_keys($modulesManifest))) {
+        if ($status && ! in_array($package->getPrettyName(), array_keys($modulesManifest))) {
             $modulesManifest = array_merge($modulesManifest, [$package->getPrettyName() => ['active' => false, 'autoload' => true]]);
         } else if (! $status) {
             unset($modulesManifest[$package->getPrettyName()]);
