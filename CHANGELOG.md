@@ -5,6 +5,9 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 
 
+## [v4.2.1] - 2020-08-29
+- Tweak module loading logic to fix existing config override
+
 ## [v4.2.0] - 2020-08-04
 - Add ability to autoload/unload installed/uninstalled modules
 
@@ -80,6 +83,7 @@ This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 ## v0.0.1 - 2018-02-18
 - Tag first release
 
+[v4.2.1]: https://github.com/rinvex/laravel-composer/compare/v4.2.0...v4.2.1
 [v4.2.0]: https://github.com/rinvex/laravel-composer/compare/v4.1.0...v4.2.0
 [v4.1.0]: https://github.com/rinvex/laravel-composer/compare/v4.0.5...v4.1.0
 [v4.0.5]: https://github.com/rinvex/laravel-composer/compare/v4.0.4...v4.0.5
