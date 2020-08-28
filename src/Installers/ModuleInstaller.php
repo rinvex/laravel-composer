@@ -83,11 +83,11 @@ class ModuleInstaller extends LibraryInstaller
     {
         $laravel = new Application(getcwd());
         $modulesManifestPath = $laravel->bootstrapPath('cache'.DIRECTORY_SEPARATOR.'modules.php');
+        $modulesManifest = file_exists($modulesManifestPath) ? require $modulesManifestPath : [];
 
-        if ($status) {
-            $modulesManifest = file_exists($modulesManifestPath) ? array_merge(require $modulesManifestPath, [$package->getPrettyName() => ['active' => false, 'autoload' => true]]) : [];
-        } else {
-            $modulesManifest = file_exists($modulesManifestPath) ? require $modulesManifestPath : [];
+        if ($status && in_array($package->getPrettyName(), array_keys($modulesManifest))) {
+            $modulesManifest = array_merge($modulesManifest, [$package->getPrettyName() => ['active' => false, 'autoload' => true]]);
+        } else if (! $status) {
             unset($modulesManifest[$package->getPrettyName()]);
         }
 
