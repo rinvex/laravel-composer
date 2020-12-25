@@ -4,13 +4,43 @@ declare(strict_types=1);
 
 namespace Rinvex\Composer\Installers;
 
-use Exception;
+use Composer\Composer;
+use Composer\IO\IOInterface;
+use Composer\Util\Filesystem;
+use React\Promise\PromiseInterface;
 use Composer\Package\PackageInterface;
 use Illuminate\Foundation\Application;
+use Composer\Installer\BinaryInstaller;
+use Rinvex\Composer\Services\ModuleManifest;
 use Composer\Repository\InstalledRepositoryInterface;
 
 class ModuleInstaller extends LibraryInstaller
 {
+    /**
+     * Module manifest instance.
+     *
+     * @var \Rinvex\Composer\Services\ModuleManifest
+     */
+    public $manifest;
+
+    /**
+     * Initializes library installer.
+     *
+     * @param IOInterface     $io
+     * @param Composer        $composer
+     * @param string          $type
+     * @param Filesystem      $filesystem
+     * @param BinaryInstaller $binaryInstaller
+     */
+    public function __construct(IOInterface $io, Composer $composer, $type = 'library', Filesystem $filesystem = null, BinaryInstaller $binaryInstaller = null)
+    {
+        parent::__construct($io, $composer, $type, $filesystem, $binaryInstaller);
+
+        $laravel = new Application(getcwd());
+        $modulesManifestPath = $laravel->bootstrapPath('cache'.DIRECTORY_SEPARATOR.'modules.php');
+        $this->manifest = new ModuleManifest($modulesManifestPath);
+    }
+
     /**
      * Decides if the installer supports the given type
      *
@@ -26,7 +56,7 @@ class ModuleInstaller extends LibraryInstaller
     /**
      * Returns the installation path of a package
      *
-     * @param  PackageInterface $package
+     * @param  \Composer\Package\PackageInterface $package
      *
      * @return string
      */
@@ -39,7 +69,7 @@ class ModuleInstaller extends LibraryInstaller
      * Installs specific package.
      *
      * @param InstalledRepositoryInterface $repo    repository in which to check
-     * @param PackageInterface             $package package instance
+     * @param \Composer\Package\PackageInterface             $package package instance
      *
      * @throws \Exception
      *
@@ -47,16 +77,81 @@ class ModuleInstaller extends LibraryInstaller
      */
     public function install(InstalledRepositoryInterface $repo, PackageInterface $package)
     {
-        $this->loadModule($package, true);
+        $afterInstall = function () use ($package) {
+            $module = $package->getPrettyName();
+            $isCore = $this->isCore($module);
 
-        parent::install($repo, $package);
+            $attributes = ['active' => $isCore ? true : false, 'autoload' => $isCore ? true : false, 'version' => $package->getVersion()];
+            $this->manifest->load()->add($module, $attributes)->persist();
+        };
+
+        // Install module, the normal composer way
+        $promise = parent::install($repo, $package);
+
+        // Composer v2 might return a promise
+        if ($promise instanceof PromiseInterface) {
+            return $promise->then($afterInstall);
+        }
+
+        // If not, execute the code right away as parent::install
+        // executed synchronously (composer v1, or v2 without async)
+        $afterInstall();
+    }
+
+    /**
+     * Check if given module is core or not.
+     *
+     * @param string $module
+     *
+     * @return bool
+     */
+    protected function isCore(string $module): bool
+    {
+        return in_array($module, $this->getConfig()['core']);
+    }
+
+    /**
+     * Updates specific package.
+     *
+     * @param InstalledRepositoryInterface       $repo    repository in which to check
+     * @param \Composer\Package\PackageInterface $initial already installed package version
+     * @param PackageInterface                   $target  updated version
+     *
+     * @throws \Exception
+     * @throws \InvalidArgumentException if $initial package is not installed
+     * @return void
+     */
+    public function update(InstalledRepositoryInterface $repo, PackageInterface $initial, PackageInterface $target)
+    {
+        $afterUpdate = function () use ($initial, $target) {
+            $initialModule = $initial->getPrettyName();
+            $targetModule = $target->getPrettyName();
+            $isCore = $this->isCore($targetModule);
+
+            $targetModuleAttributes = ['active' => $isCore ? true : false, 'autoload' => $isCore ? true : false, 'version' => $target->getVersion(),];
+
+            $this->manifest->load()->remove($initialModule)->persist();
+            $this->manifest->load()->add($targetModule, $targetModuleAttributes)->persist();
+        };
+
+        // Update module, the normal composer way
+        $promise = parent::update($repo, $initial, $target);
+
+        // Composer v2 might return a promise
+        if ($promise instanceof PromiseInterface) {
+            return $promise->then($afterUpdate);
+        }
+
+        // If not, execute the code right away as parent::update
+        // executed synchronously (composer v1, or v2 without async)
+        $afterUpdate();
     }
 
     /**
      * Uninstalls specific package.
      *
      * @param InstalledRepositoryInterface $repo    repository in which to check
-     * @param PackageInterface             $package package instance
+     * @param \Composer\Package\PackageInterface             $package package instance
      *
      * @throws \Exception
      *
@@ -64,64 +159,21 @@ class ModuleInstaller extends LibraryInstaller
      */
     public function uninstall(InstalledRepositoryInterface $repo, PackageInterface $package)
     {
-        $this->loadModule($package, false);
+        $afterUninstall = function () use ($package) {
+            $module = $package->getPrettyName();
+            $this->manifest->load()->remove($module)->persist();
+        };
 
-        parent::uninstall($repo, $package);
-    }
+        // Uninstall the package the normal composer way
+        $promise = parent::uninstall($repo, $package);
 
-    /**
-     * Autoload installed module.
-     *
-     * @param \Composer\Package\PackageInterface $package
-     * @param bool                               $status
-     *
-     * @throws \Exception
-     *
-     * @return void
-     */
-    protected function loadModule(PackageInterface $package, bool $status): void
-    {
-        $laravel = new Application(getcwd());
-        $modulesManifestPath = $laravel->bootstrapPath('cache'.DIRECTORY_SEPARATOR.'modules.php');
-        $modulesManifest = file_exists($modulesManifestPath) ? require $modulesManifestPath : [];
-
-        if ($status && ! in_array($package->getPrettyName(), array_keys($modulesManifest))) {
-            $modulesManifest = array_merge($modulesManifest, [$package->getPrettyName() => ['active' => false, 'autoload' => true]]);
-        } else if (! $status) {
-            unset($modulesManifest[$package->getPrettyName()]);
+        // Composer v2 might return a promise
+        if ($promise instanceof PromiseInterface) {
+            return $promise->then($afterUninstall);
         }
 
-        if (! is_writable($dirname = dirname($modulesManifestPath))) {
-            throw new Exception("The {$dirname} directory must be present and writable.");
-        }
-
-        $this->replaceFile(
-            $modulesManifestPath, '<?php return '.var_export($modulesManifest, true).';'
-        );
-    }
-
-    /**
-     * Write the contents of a file, replacing it atomically if it already exists.
-     *
-     * @param  string  $path
-     * @param  string  $content
-     *
-     * @return void
-     */
-    protected function replaceFile($path, $content)
-    {
-        // If the path already exists and is a symlink, get the real path...
-        clearstatcache(true, $path);
-
-        $path = realpath($path) ?: $path;
-
-        $tempPath = tempnam(dirname($path), basename($path));
-
-        // Fix permissions of tempPath because `tempnam()` creates it with permissions set to 0600...
-        chmod($tempPath, 0777 - umask());
-
-        file_put_contents($tempPath, $content);
-
-        rename($tempPath, $path);
+        // If not, execute the code right away as parent::uninstall
+        // executed synchronously (composer v1, or v2 without async)
+        $afterUninstall();
     }
 }
