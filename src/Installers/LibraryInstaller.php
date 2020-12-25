@@ -22,18 +22,30 @@ class LibraryInstaller extends BaseLibraryInstaller
     ];
 
     /**
-     * Return the path.
+     * Get config options.
      *
-     * @param string $path
+     * @return array
+     */
+    public function getConfig(): array
+    {
+        $vendorComposerConfig = __DIR__.'/../../config/config.php';
+        $appComposerConfig = __DIR__.'/../../../../../config/rinvex.composer.php';
+
+        return is_file($appComposerConfig) ? require $appComposerConfig
+            : (is_file($vendorComposerConfig) ? require $vendorComposerConfig : []);
+    }
+
+    /**
+     * Return path of the given dir.
+     *
+     * @param string $dir
      *
      * @return string
      */
-    protected function getPath($path): string
+    public function getPath(string $dir): string
     {
-        $pathsFile = __DIR__.'/../../../../../config/rinvex.composer.php';
-        $paths = file_exists($pathsFile) ? require $pathsFile : [];
-
-        return $paths[$path] ?? __DIR__.$this->paths[$path];
+        return $this->getConfig()['paths'][$dir]
+               ?? __DIR__.$this->paths[$dir];
     }
 
     /**
@@ -66,7 +78,7 @@ class LibraryInstaller extends BaseLibraryInstaller
      * @param PackageInterface             $initial already installed package version
      * @param PackageInterface             $target  updated version
      *
-     * @throws InvalidArgumentException if $initial package is not installed
+     * @throws \InvalidArgumentException if $initial package is not installed
      *
      * @return void
      */

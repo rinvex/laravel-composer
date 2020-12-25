@@ -49,6 +49,7 @@
     },
     "require-dev": {
         "codedungeon/phpunit-result-printer": "^0.30.0",
+        "composer/composer": "^2.0.0",
         "illuminate/container": "^8.0.0 || ^9.0.0",
         "phpunit/phpunit": "^9.5.0"
     },
