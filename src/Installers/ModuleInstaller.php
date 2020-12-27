@@ -4,47 +4,16 @@ declare(strict_types=1);
 
 namespace Rinvex\Composer\Installers;
 
-use Composer\Composer;
-use Composer\IO\IOInterface;
-use Composer\Util\Filesystem;
 use React\Promise\PromiseInterface;
 use Composer\Package\PackageInterface;
-use Illuminate\Foundation\Application;
-use Composer\Installer\BinaryInstaller;
-use Rinvex\Composer\Services\ModuleManifest;
 use Composer\Repository\InstalledRepositoryInterface;
 
 class ModuleInstaller extends LibraryInstaller
 {
     /**
-     * Module manifest instance.
+     * Decides if the installer supports the given type.
      *
-     * @var \Rinvex\Composer\Services\ModuleManifest
-     */
-    public $manifest;
-
-    /**
-     * Initializes library installer.
-     *
-     * @param IOInterface     $io
-     * @param Composer        $composer
-     * @param string          $type
-     * @param Filesystem      $filesystem
-     * @param BinaryInstaller $binaryInstaller
-     */
-    public function __construct(IOInterface $io, Composer $composer, $type = 'library', Filesystem $filesystem = null, BinaryInstaller $binaryInstaller = null)
-    {
-        parent::__construct($io, $composer, $type, $filesystem, $binaryInstaller);
-
-        $laravel = new Application(getcwd());
-        $modulesManifestPath = $laravel->bootstrapPath('cache'.DIRECTORY_SEPARATOR.'modules.php');
-        $this->manifest = new ModuleManifest($modulesManifestPath);
-    }
-
-    /**
-     * Decides if the installer supports the given type
-     *
-     * @param  string $packageType
+     * @param string $packageType
      *
      * @return bool
      */
@@ -54,22 +23,44 @@ class ModuleInstaller extends LibraryInstaller
     }
 
     /**
-     * Returns the installation path of a package
+     * Returns the installation path of a package.
      *
-     * @param  \Composer\Package\PackageInterface $package
+     * @return string
+     */
+    public function getModulesPath(string $module = null)
+    {
+        return $this->laravel->path($module);
+    }
+
+    /**
+     * Returns the installation path of a package.
+     *
+     * @param \Composer\Package\PackageInterface $package
      *
      * @return string
      */
     public function getInstallPath(PackageInterface $package)
     {
-        return $this->getPath('app').$package->getPrettyName();
+        return $this->getModulesPath($package->getPrettyName());
+    }
+
+    /**
+     * Check if given module is core or not.
+     *
+     * @param string $module
+     *
+     * @return bool
+     */
+    protected function isCore(string $module): bool
+    {
+        return in_array($module, $this->getConfig('core_modules'));
     }
 
     /**
      * Installs specific package.
      *
-     * @param InstalledRepositoryInterface $repo    repository in which to check
-     * @param \Composer\Package\PackageInterface             $package package instance
+     * @param InstalledRepositoryInterface       $repo    repository in which to check
+     * @param \Composer\Package\PackageInterface $package package instance
      *
      * @throws \Exception
      *
@@ -81,7 +72,7 @@ class ModuleInstaller extends LibraryInstaller
             $module = $package->getPrettyName();
             $isCore = $this->isCore($module);
 
-            $attributes = ['active' => $isCore ? true : false, 'autoload' => $isCore ? true : false, 'version' => $package->getVersion()];
+            $attributes = ['active' => $isCore ? true : false, 'autoload' => $isCore ? true : false, 'version' => $package->getPrettyVersion()];
             $this->manifest->load()->add($module, $attributes)->persist();
         };
 
@@ -99,18 +90,6 @@ class ModuleInstaller extends LibraryInstaller
     }
 
     /**
-     * Check if given module is core or not.
-     *
-     * @param string $module
-     *
-     * @return bool
-     */
-    protected function isCore(string $module): bool
-    {
-        return in_array($module, $this->getConfig()['core']);
-    }
-
-    /**
      * Updates specific package.
      *
      * @param InstalledRepositoryInterface       $repo    repository in which to check
@@ -119,6 +98,7 @@ class ModuleInstaller extends LibraryInstaller
      *
      * @throws \Exception
      * @throws \InvalidArgumentException if $initial package is not installed
+     *
      * @return void
      */
     public function update(InstalledRepositoryInterface $repo, PackageInterface $initial, PackageInterface $target)
@@ -128,7 +108,7 @@ class ModuleInstaller extends LibraryInstaller
             $targetModule = $target->getPrettyName();
             $isCore = $this->isCore($targetModule);
 
-            $targetModuleAttributes = ['active' => $isCore ? true : false, 'autoload' => $isCore ? true : false, 'version' => $target->getVersion(),];
+            $targetModuleAttributes = ['active' => $isCore ? true : false, 'autoload' => $isCore ? true : false, 'version' => $target->getPrettyVersion()];
 
             $this->manifest->load()->remove($initialModule)->persist();
             $this->manifest->load()->add($targetModule, $targetModuleAttributes)->persist();
@@ -150,8 +130,8 @@ class ModuleInstaller extends LibraryInstaller
     /**
      * Uninstalls specific package.
      *
-     * @param InstalledRepositoryInterface $repo    repository in which to check
-     * @param \Composer\Package\PackageInterface             $package package instance
+     * @param InstalledRepositoryInterface       $repo    repository in which to check
+     * @param \Composer\Package\PackageInterface $package package instance
      *
      * @throws \Exception
      *

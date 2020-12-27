@@ -4,101 +4,66 @@ declare(strict_types=1);
 
 namespace Rinvex\Composer\Installers;
 
-use Composer\Package\PackageInterface;
-use Composer\Repository\InstalledRepositoryInterface;
+use Composer\Composer;
+use Illuminate\Support\Arr;
+use Composer\IO\IOInterface;
+use Composer\Util\Filesystem;
+use Illuminate\Foundation\Application;
+use Composer\Installer\BinaryInstaller;
+use Rinvex\Composer\Services\ModuleManifest;
 use Composer\Installer\LibraryInstaller as BaseLibraryInstaller;
 
 class LibraryInstaller extends BaseLibraryInstaller
 {
     /**
-     * Paths array.
+     * Module manifest instance.
      *
-     * @var array
+     * @var \Rinvex\Composer\Services\ModuleManifest
      */
-    protected $paths = [
-        'base' => '/../../../../../',
-        'app' => '/../../../../../app/',
-        'bootstrap' => '/../../../../../bootstrap/',
-    ];
+    public $manifest;
+
+    /**
+     * Laravel application instance.
+     *
+     * @var \Illuminate\Foundation\Application
+     */
+    public $laravel;
+
+    /**
+     * Initializes library installer.
+     *
+     * @param IOInterface     $io
+     * @param Composer        $composer
+     * @param string          $type
+     * @param Filesystem      $filesystem
+     * @param BinaryInstaller $binaryInstaller
+     */
+    public function __construct(IOInterface $io, Composer $composer, $type = 'library', Filesystem $filesystem = null, BinaryInstaller $binaryInstaller = null)
+    {
+        parent::__construct($io, $composer, $type, $filesystem, $binaryInstaller);
+
+        $this->laravel = new Application(getcwd());
+        $modulesManifestPath = $this->laravel->bootstrapPath('cache'.DIRECTORY_SEPARATOR.'modules.php');
+        $this->manifest = new ModuleManifest($modulesManifestPath);
+    }
 
     /**
      * Get config options.
      *
-     * @return array
+     * @param string|null $key
+     *
+     * @return mixed
      */
-    public function getConfig(): array
+    public function getConfig(string $key = null)
     {
-        $vendorComposerConfig = __DIR__.'/../../config/config.php';
-        $appComposerConfig = __DIR__.'/../../../../../config/rinvex.composer.php';
+        $vendorConfig = __DIR__.'/../../config/config.php';
+        $appConfig = $this->laravel->configPath().'/rinvex.composer.php';
 
-        return is_file($appComposerConfig) ? require $appComposerConfig
-            : (is_file($vendorComposerConfig) ? require $vendorComposerConfig : []);
-    }
+        $config = is_file($appConfig) ? require $appConfig
+            : (is_file($vendorConfig) ? require $vendorConfig : []);
 
-    /**
-     * Return path of the given dir.
-     *
-     * @param string $dir
-     *
-     * @return string
-     */
-    public function getPath(string $dir): string
-    {
-        return $this->getConfig()['paths'][$dir]
-               ?? __DIR__.$this->paths[$dir];
-    }
+        $config = Arr::dot($config);
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isInstalled(InstalledRepositoryInterface $repo, PackageInterface $package)
-    {
-        return parent::isInstalled($repo, $package);
-    }
-
-    /**
-     * Installs specific package.
-     *
-     * @param InstalledRepositoryInterface $repo    repository in which to check
-     * @param PackageInterface             $package package instance
-     *
-     * @throws \Exception
-     *
-     * @return void
-     */
-    public function install(InstalledRepositoryInterface $repo, PackageInterface $package)
-    {
-        parent::install($repo, $package);
-    }
-
-    /**
-     * Updates specific package.
-     *
-     * @param InstalledRepositoryInterface $repo    repository in which to check
-     * @param PackageInterface             $initial already installed package version
-     * @param PackageInterface             $target  updated version
-     *
-     * @throws \InvalidArgumentException if $initial package is not installed
-     *
-     * @return void
-     */
-    public function update(InstalledRepositoryInterface $repo, PackageInterface $initial, PackageInterface $target)
-    {
-        parent::update($repo, $initial, $target);
-    }
-
-    /**
-     * Uninstalls specific package.
-     *
-     * @param InstalledRepositoryInterface $repo    repository in which to check
-     * @param PackageInterface             $package package instance
-     *
-     * @throws \Exception
-     *
-     * @return void
-     */
-    public function uninstall(InstalledRepositoryInterface $repo, PackageInterface $package)
-    {
-        parent::uninstall($repo, $package);
+        return ! is_null($key) && isset($config[$key]) ? $config[$key] : $config;
     }
 }
