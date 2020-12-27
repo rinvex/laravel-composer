@@ -5,16 +5,17 @@ declare(strict_types=1);
 namespace Rinvex\Composer\Plugins;
 
 use Composer\Composer;
-use Composer\Script\Event;
-use Composer\IO\IOInterface;
-use Composer\Script\ScriptEvents;
-use Composer\Installer\PackageEvent;
-use Composer\Plugin\PluginInterface;
-use Composer\Installer\PackageEvents;
-use Composer\Package\Version\VersionParser;
-use Rinvex\Composer\Installers\ModuleInstaller;
-use Composer\EventDispatcher\EventSubscriberInterface;
 use Composer\DependencyResolver\Operation\UpdateOperation;
+use Composer\EventDispatcher\EventSubscriberInterface;
+use Composer\Installer\PackageEvent;
+use Composer\Installer\PackageEvents;
+use Composer\IO\IOInterface;
+use Composer\Package\Version\VersionParser;
+use Composer\Plugin\PluginInterface;
+use Composer\Script\Event;
+use Composer\Script\ScriptEvents;
+use Illuminate\Foundation\Application;
+use Rinvex\Composer\Installers\ModuleInstaller;
 
 class ModulePlugin implements PluginInterface, EventSubscriberInterface
 {
@@ -33,13 +34,6 @@ class ModulePlugin implements PluginInterface, EventSubscriberInterface
     protected $moduleUpdates = [];
 
     /**
-     * The directory path where modules are installed.
-     *
-     * @var string path to the modules directory.
-     */
-    protected $modulesPath;
-
-    /**
      * Apply plugin modifications to Composer.
      *
      * @param Composer    $composer
@@ -50,7 +44,6 @@ class ModulePlugin implements PluginInterface, EventSubscriberInterface
     public function activate(Composer $composer, IOInterface $io)
     {
         $this->installer = new ModuleInstaller($io, $composer);
-        $this->modulesPath = $this->installer->getPath('app');
 
         $composer->getInstallationManager()->addInstaller($this->installer);
 
@@ -73,7 +66,7 @@ class ModulePlugin implements PluginInterface, EventSubscriberInterface
     }
 
     /**
-     * Prepare the plugin to be uninstalled.
+     * Prepare the plugin to be uninstalled
      *
      * This will be called after deactivate.
      *
@@ -94,7 +87,6 @@ class ModulePlugin implements PluginInterface, EventSubscriberInterface
      * * An array composed of the method name to call and the priority
      * * An array of arrays composed of the method names to call and respective
      *   priorities, or 0 if unset.
-     *
      * @return array The event names to listen to
      */
     public static function getSubscribedEvents()
@@ -130,7 +122,7 @@ class ModulePlugin implements PluginInterface, EventSubscriberInterface
     /**
      * Check if the operation is an upgrade.
      *
-     * @param \Composer\Installer\PackageEvent                       $event
+     * @param \Composer\Installer\PackageEvent $event
      * @param \Composer\DependencyResolver\Operation\UpdateOperation $operation
      *
      * @return bool
@@ -159,16 +151,14 @@ class ModulePlugin implements PluginInterface, EventSubscriberInterface
      */
     public function showUpgradeNotes(Event $event)
     {
-        $moduleNames = $this->installer->getConfig()['core'];
-
-        foreach ($moduleNames as $moduleName) {
+        foreach ($this->installer->getConfig('core_modules') as $moduleName) {
             if (! isset($this->moduleUpdates[$moduleName])) {
                 return;
             }
 
             $module = $this->moduleUpdates[$moduleName];
 
-            // do not show a notice on up/downgrades between dev versions
+            // Don't show a notice on up/downgrades between dev versions
             // avoid messages like from version dev-master to dev-master
             if ($module['fromPretty'] === $module['toPretty']) {
                 return;
@@ -212,15 +202,15 @@ class ModulePlugin implements PluginInterface, EventSubscriberInterface
      * Print link to upgrade notes.
      *
      * @param IOInterface $io
-     * @param array       $module
-     * @param string      $moduleName
+     * @param array $module
+     * @param string $moduleName
      */
     protected function printUpgradeLink($io, $module, $moduleName)
     {
         $maxVersion = $module['direction'] === 'up' ? $module['toPretty'] : $module['fromPretty'];
 
         // make sure to always show a valid link, even if $maxVersion is something like dev-master
-        if (! $this->isNumericVersion($maxVersion)) {
+        if (!$this->isNumericVersion($maxVersion)) {
             $maxVersion = 'master';
         }
 
@@ -228,20 +218,18 @@ class ModulePlugin implements PluginInterface, EventSubscriberInterface
     }
 
     /**
-     * Print upgrade intro.
-     *
+     * Print upgrade intro
      * @param IOInterface $io
-     * @param array       $module
+     * @param array $module
      *
      * @return void
      */
     protected function printUpgradeIntro($io, $module): void
     {
-        $io->write(
-            "\n  <fg=yellow;options=bold>Seems you have "
-            .($module['direction'] === 'up' ? 'upgraded' : 'downgraded')
-            .' Cortex module from version '
-            .$module['fromPretty'].' to '.$module['toPretty'].'.</>'
+        $io->write("\n  <fg=yellow;options=bold>Seems you have "
+            . ($module['direction'] === 'up' ? 'upgraded' : 'downgraded')
+            . ' Cortex module from version '
+            . $module['fromPretty'] . ' to ' . $module['toPretty'] . '.</>'
         );
         $io->write("\n  <options=bold>Please check the upgrade notes for possible incompatible changes");
         $io->write('  and adjust your application code accordingly.</>');
@@ -250,7 +238,7 @@ class ModulePlugin implements PluginInterface, EventSubscriberInterface
     /**
      * Read upgrade notes from a files and returns an array of lines.
      *
-     * @param string $moduleName  module name
+     * @param string $moduleName module name
      * @param string $fromVersion until which version to read the notes.
      *
      * @return array|false
@@ -263,7 +251,7 @@ class ModulePlugin implements PluginInterface, EventSubscriberInterface
             $fromVersionMajor = $fromVersion;
         }
 
-        $upgradeFile = $this->modulesPath.'/'.$moduleName.'/UPGRADE.md';
+        $upgradeFile = $this->installer->getModulesPath($moduleName).'/UPGRADE.md';
 
         if (! is_file($upgradeFile) || ! is_readable($upgradeFile)) {
             return false;

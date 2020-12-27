@@ -35,18 +35,27 @@ class ModuleManifest
     /**
      * Load manifest from cache.
      *
+     * @return array
+     */
+    public function retrieveContent()
+    {
+        if (is_file($this->path)) {
+            $this->content = require $this->path;
+        }
+
+        return $this->content;
+    }
+
+    /**
+     * Load manifest from cache.
+     *
      * @return static
      */
     public function load()
     {
-        if (is_file($this->path)) {
-            if (function_exists('opcache_invalidate')) {
-                // Invalidate opcache of modules manifest file if exists
-                @opcache_invalidate($this->path, true);
-            }
+        $this->invalidateOpcache();
 
-            $this->content = require $this->path;
-        }
+        $this->retrieveContent();
 
         return $this;
     }
@@ -110,6 +119,16 @@ class ModuleManifest
 
         rename($tempPath, $this->path);
 
+        $this->invalidateOpcache();
+    }
+
+    /**
+     * Invalidate opcache for modules manifest file.
+     *
+     * @return void
+     */
+    protected function invalidateOpcache(): void
+    {
         if (function_exists('opcache_invalidate')) {
             // Invalidate opcache of modules manifest file if exists
             @opcache_invalidate($this->path, true);
