@@ -9,9 +9,9 @@ use Composer\Package\PackageInterface;
 class CustomInstaller extends LibraryInstaller
 {
     /**
-     * Decides if the installer supports the given type
+     * Decides if the installer supports the given type.
      *
-     * @param  string $packageType
+     * @param string $packageType
      *
      * @return bool
      */
@@ -21,9 +21,9 @@ class CustomInstaller extends LibraryInstaller
     }
 
     /**
-     * Returns the installation path of a package
+     * Returns the installation path of a package.
      *
-     * @param  PackageInterface $package
+     * @param PackageInterface $package
      *
      * @return string
      */
