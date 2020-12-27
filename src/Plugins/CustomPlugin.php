@@ -19,7 +19,7 @@ class CustomPlugin implements PluginInterface
     protected $installer;
 
     /**
-     * Apply plugin modifications to Composer
+     * Apply plugin modifications to Composer.
      *
      * @param Composer    $composer
      * @param IOInterface $io
@@ -32,7 +32,7 @@ class CustomPlugin implements PluginInterface
     }
 
     /**
-     * Remove any hooks from Composer
+     * Remove any hooks from Composer.
      *
      * This will be called when a plugin is deactivated before being
      * uninstalled, but also before it gets upgraded to a new version
@@ -47,7 +47,7 @@ class CustomPlugin implements PluginInterface
     }
 
     /**
-     * Prepare the plugin to be uninstalled
+     * Prepare the plugin to be uninstalled.
      *
      * This will be called after deactivate.
      *

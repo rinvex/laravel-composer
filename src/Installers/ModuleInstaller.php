@@ -11,9 +11,9 @@ use Composer\Repository\InstalledRepositoryInterface;
 class ModuleInstaller extends LibraryInstaller
 {
     /**
-     * Decides if the installer supports the given type
+     * Decides if the installer supports the given type.
      *
-     * @param  string $packageType
+     * @param string $packageType
      *
      * @return bool
      */
@@ -23,7 +23,7 @@ class ModuleInstaller extends LibraryInstaller
     }
 
     /**
-     * Returns the installation path of a package
+     * Returns the installation path of a package.
      *
      * @return string
      */
@@ -33,9 +33,9 @@ class ModuleInstaller extends LibraryInstaller
     }
 
     /**
-     * Returns the installation path of a package
+     * Returns the installation path of a package.
      *
-     * @param  \Composer\Package\PackageInterface $package
+     * @param \Composer\Package\PackageInterface $package
      *
      * @return string
      */
@@ -59,8 +59,8 @@ class ModuleInstaller extends LibraryInstaller
     /**
      * Installs specific package.
      *
-     * @param InstalledRepositoryInterface $repo    repository in which to check
-     * @param \Composer\Package\PackageInterface             $package package instance
+     * @param InstalledRepositoryInterface       $repo    repository in which to check
+     * @param \Composer\Package\PackageInterface $package package instance
      *
      * @throws \Exception
      *
@@ -108,7 +108,7 @@ class ModuleInstaller extends LibraryInstaller
             $targetModule = $target->getPrettyName();
             $isCore = $this->isCore($targetModule);
 
-            $targetModuleAttributes = ['active' => $isCore ? true : false, 'autoload' => $isCore ? true : false, 'version' => $target->getPrettyVersion(),];
+            $targetModuleAttributes = ['active' => $isCore ? true : false, 'autoload' => $isCore ? true : false, 'version' => $target->getPrettyVersion()];
 
             $this->manifest->load()->remove($initialModule)->persist();
             $this->manifest->load()->add($targetModule, $targetModuleAttributes)->persist();
@@ -130,8 +130,8 @@ class ModuleInstaller extends LibraryInstaller
     /**
      * Uninstalls specific package.
      *
-     * @param InstalledRepositoryInterface $repo    repository in which to check
-     * @param \Composer\Package\PackageInterface             $package package instance
+     * @param InstalledRepositoryInterface       $repo    repository in which to check
+     * @param \Composer\Package\PackageInterface $package package instance
      *
      * @throws \Exception
      *
