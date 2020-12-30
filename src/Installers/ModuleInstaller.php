@@ -53,7 +53,7 @@ class ModuleInstaller extends LibraryInstaller
      */
     protected function isCore(string $module): bool
     {
-        return in_array($module, $this->getConfig('core_modules'));
+        return in_array($module, $this->getConfig('always_active'));
     }
 
     /**

@@ -151,7 +151,7 @@ class ModulePlugin implements PluginInterface, EventSubscriberInterface
      */
     public function showUpgradeNotes(Event $event)
     {
-        foreach ($this->installer->getConfig('core_modules') as $moduleName) {
+        foreach ($this->installer->getConfig('always_active') as $moduleName) {
             if (! isset($this->moduleUpdates[$moduleName])) {
                 return;
             }
