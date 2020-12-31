@@ -79,6 +79,22 @@ class ModuleManifest
     }
 
     /**
+     * Get given module from manifest file.
+     *
+     * @param string $moduleName
+     *
+     * @return array|null
+     */
+    public function get(string $moduleName)
+    {
+        if (! array_key_exists($moduleName, $this->content)) {
+            return;
+        }
+
+        return $this->content[$moduleName];
+    }
+
+    /**
      * Remove given module from manifest file.
      *
      * @return static
