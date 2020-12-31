@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 
 
+## [v5.0.3] - 2020-12-29
+- Rename core_modules to always_active
+- Add get method to ModuleManifest class for retrieving module attributes
+
 ## [v5.0.2] - 2020-12-27
 - Apply fixes from StyleCI
 - Tweak and optimize module and custom composer installer
@@ -97,6 +101,7 @@ This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 ## v0.0.1 - 2018-02-18
 - Tag first release
 
+[v5.0.3]: https://github.com/rinvex/laravel-composer/compare/v5.0.2...v5.0.3
 [v5.0.2]: https://github.com/rinvex/laravel-composer/compare/v5.0.1...v5.0.2
 [v5.0.1]: https://github.com/rinvex/laravel-composer/compare/v5.0.0...v5.0.1
 [v5.0.0]: https://github.com/rinvex/laravel-composer/compare/v4.2.2...v5.0.0
