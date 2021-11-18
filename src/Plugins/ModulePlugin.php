@@ -6,6 +6,7 @@ namespace Rinvex\Composer\Plugins;
 
 use Composer\Composer;
 use Composer\Script\Event;
+use Composer\Json\JsonFile;
 use Composer\IO\IOInterface;
 use Composer\Script\ScriptEvents;
 use Composer\Installer\PackageEvent;
@@ -177,7 +178,7 @@ class ModulePlugin implements PluginInterface, EventSubscriberInterface
                     return;
                 }
 
-                $this->printUpgradeIntro($io, $module);
+                $this->printUpgradeIntro($io, $moduleName, $module);
 
                 if ($notes) {
                     // Safety check: do not display notes if they are too many
@@ -190,11 +191,11 @@ class ModulePlugin implements PluginInterface, EventSubscriberInterface
 
                 $io->write("\n  You can find the upgrade notes for all versions online at:");
             } else {
-                $this->printUpgradeIntro($io, $module);
+                $this->printUpgradeIntro($io, $moduleName, $module);
                 $io->write("\n  You can find the upgrade notes online at:");
             }
 
-            $this->printUpgradeLink($io, $module, $moduleName);
+            $this->printUpgradeLink($io, $moduleName, $module);
         }
     }
 
@@ -202,11 +203,14 @@ class ModulePlugin implements PluginInterface, EventSubscriberInterface
      * Print link to upgrade notes.
      *
      * @param IOInterface $io
-     * @param array       $module
      * @param string      $moduleName
+     * @param array       $module
      */
-    protected function printUpgradeLink($io, $module, $moduleName)
+    protected function printUpgradeLink(IOInterface $io, string $moduleName, array $module)
     {
+        $jsonFile = new JsonFile($this->installer->getModulesPath($moduleName).'/composer.json');
+        $jsonData = $jsonFile->read();
+
         $maxVersion = $module['direction'] === 'up' ? $module['toPretty'] : $module['fromPretty'];
 
         // make sure to always show a valid link, even if $maxVersion is something like dev-master
@@ -214,24 +218,25 @@ class ModulePlugin implements PluginInterface, EventSubscriberInterface
             $maxVersion = 'master';
         }
 
-        $io->write("  https://github.com/{$moduleName}/blob/{$maxVersion}/UPGRADE.md\n");
+        $io->write("  {$jsonData['support']['source']}/blob/{$maxVersion}/UPGRADE.md\n");
     }
 
     /**
      * Print upgrade intro.
      *
      * @param IOInterface $io
+     * @param string      $moduleName
      * @param array       $module
      *
      * @return void
      */
-    protected function printUpgradeIntro($io, $module): void
+    protected function printUpgradeIntro(IOInterface $io, string $moduleName, array $module): void
     {
         $io->write(
             "\n  <fg=yellow;options=bold>Seems you have "
             .($module['direction'] === 'up' ? 'upgraded' : 'downgraded')
-            .' Cortex module from version '
-            .$module['fromPretty'].' to '.$module['toPretty'].'.</>'
+            ." Cortex module $moduleName from version "
+            ."{$module['fromPretty']} to {$module['toPretty']}.</>"
         );
         $io->write("\n  <options=bold>Please check the upgrade notes for possible incompatible changes");
         $io->write('  and adjust your application code accordingly.</>');
