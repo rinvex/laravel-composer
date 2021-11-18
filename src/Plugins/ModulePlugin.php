@@ -235,7 +235,7 @@ class ModulePlugin implements PluginInterface, EventSubscriberInterface
         $io->write(
             "\n  <fg=yellow;options=bold>Seems you have "
             .($module['direction'] === 'up' ? 'upgraded' : 'downgraded')
-            ." Cortex module $moduleName from version "
+            ." Cortex module {$moduleName} from version "
             ."{$module['fromPretty']} to {$module['toPretty']}.</>"
         );
         $io->write("\n  <options=bold>Please check the upgrade notes for possible incompatible changes");
