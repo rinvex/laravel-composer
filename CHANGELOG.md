@@ -5,6 +5,9 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 
 
+## [v6.0.1] - 2021-12-08
+- Print module name on upgrade/downgrade and fix upgrade link
+
 ## [v6.0.0] - 2021-08-22
 - Drop PHP v7 support, and upgrade rinvex package dependencies to next major version
 - Update composer dependencies
@@ -105,6 +108,7 @@ This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 ## v0.0.1 - 2018-02-18
 - Tag first release
 
+[v6.0.1]: https://github.com/rinvex/laravel-composer/compare/v6.0.0...v6.0.1
 [v6.0.0]: https://github.com/rinvex/laravel-composer/compare/v5.0.3...v6.0.0
 [v5.0.3]: https://github.com/rinvex/laravel-composer/compare/v5.0.2...v5.0.3
 [v5.0.2]: https://github.com/rinvex/laravel-composer/compare/v5.0.1...v5.0.2
