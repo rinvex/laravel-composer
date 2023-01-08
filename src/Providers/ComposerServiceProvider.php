@@ -18,7 +18,7 @@ class ComposerServiceProvider extends ServiceProvider
      * @var array
      */
     protected $commands = [
-        PublishCommand::class => 'command.rinvex.composer.publish',
+        PublishCommand::class,
     ];
 
     /**
@@ -30,7 +30,7 @@ class ComposerServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(realpath(__DIR__.'/../../config/config.php'), 'rinvex.composer');
 
         // Register console commands
-        $this->registerCommands($this->commands);
+        $this->commands($this->commands);
     }
 
     /**
