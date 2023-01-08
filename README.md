@@ -54,7 +54,7 @@ This is a powerful feature available for more flexibility and control over packa
 ```json
 "type": "cortex-custom",
 "require": {
-    "rinvex/laravel-composer": "^6.0.0"
+    "rinvex/laravel-composer": "^7.0.0"
 },
 "extra": {
     "path": "custom/path/"
