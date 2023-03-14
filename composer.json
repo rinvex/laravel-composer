@@ -51,7 +51,7 @@
         "codedungeon/phpunit-result-printer": "^0.32.0",
         "composer/composer": "^2.0.0",
         "illuminate/container": "^9.0.0 || ^10.0.0",
-        "phpunit/phpunit": "^9.5.0"
+        "phpunit/phpunit": "^10.0.16"
     },
     "autoload": {
         "psr-4": {
