@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 
 
+## [v7.1.0] - 2023-05-02
+- 72b7984: Add support for Laravel v11, and drop support for Laravel v9
+- 8b682d5: Upgrade composer/composer to v2.5 from v2.0
+- 43cc0c9: Update phpunit to v10.1 from v9.5
+
 ## [v7.0.0] - 2023-01-09
 - Tweak artisan commands registration
 - Drop PHP v8.0 support and update composer dependencies
@@ -116,6 +121,7 @@ This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 ## v0.0.1 - 2018-02-18
 - Tag first release
 
+[v7.1.0]: https://github.com/rinvex/laravel-composer/compare/v7.0.0...v7.1.0
 [v7.0.0]: https://github.com/rinvex/laravel-composer/compare/v6.1.0...v7.0.0
 [v6.1.0]: https://github.com/rinvex/laravel-composer/compare/v6.0.1...v6.1.0
 [v6.0.1]: https://github.com/rinvex/laravel-composer/compare/v6.0.0...v6.0.1
