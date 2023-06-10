@@ -71,8 +71,9 @@ class ModuleInstaller extends LibraryInstaller
         $afterInstall = function () use ($package) {
             $module = $package->getPrettyName();
             $isCore = $this->isCore($module);
+            $moduleExtends = (is_array($extra = $package->getExtra()) ? $extra['cortex-module']['extends'] : null) ?? null;
 
-            $attributes = ['active' => $isCore ? true : false, 'autoload' => $isCore ? true : false, 'version' => $package->getPrettyVersion()];
+            $attributes = ['active' => $isCore ? true : false, 'autoload' => $isCore ? true : false, 'version' => $package->getPrettyVersion(), 'extends' => $moduleExtends];
             $this->manifest->load()->add($module, $attributes)->persist();
         };
 
@@ -107,8 +108,9 @@ class ModuleInstaller extends LibraryInstaller
             $initialModule = $initial->getPrettyName();
             $targetModule = $target->getPrettyName();
             $isCore = $this->isCore($targetModule);
+            $moduleExtends = (is_array($extra = $package->getExtra()) ? $extra['cortex-module']['extends'] : null) ?? null;
 
-            $targetModuleAttributes = ['active' => $isCore ? true : false, 'autoload' => $isCore ? true : false, 'version' => $target->getPrettyVersion()];
+            $targetModuleAttributes = ['active' => $isCore ? true : false, 'autoload' => $isCore ? true : false, 'version' => $package->getPrettyVersion(), 'extends' => $moduleExtends];
 
             $this->manifest->load()->remove($initialModule)->persist();
             $this->manifest->load()->add($targetModule, $targetModuleAttributes)->persist();
