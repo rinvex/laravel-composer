@@ -51,7 +51,7 @@ class ModuleInstaller extends LibraryInstaller
      *
      * @return bool
      */
-    protected function isCore(string $module): bool
+    protected function isAlwaysActive(string $module): bool
     {
         return in_array($module, $this->getConfig('always_active'));
     }
@@ -70,10 +70,10 @@ class ModuleInstaller extends LibraryInstaller
     {
         $afterInstall = function () use ($package) {
             $module = $package->getPrettyName();
-            $isCore = $this->isCore($module);
+            $isAlwaysActive = $this->isAlwaysActive($module);
             $moduleExtends = (is_array($extra = $package->getExtra()) ? $extra['cortex-module']['extends'] : null) ?? null;
 
-            $attributes = ['active' => $isCore ? true : false, 'autoload' => $isCore ? true : false, 'version' => $package->getPrettyVersion(), 'extends' => $moduleExtends];
+            $attributes = ['active' => $isAlwaysActive ? true : false, 'autoload' => $isAlwaysActive ? true : false, 'version' => $package->getPrettyVersion(), 'extends' => $moduleExtends];
             $this->manifest->load()->add($module, $attributes)->persist();
         };
 
@@ -107,10 +107,10 @@ class ModuleInstaller extends LibraryInstaller
         $afterUpdate = function () use ($initial, $target) {
             $initialModule = $initial->getPrettyName();
             $targetModule = $target->getPrettyName();
-            $isCore = $this->isCore($targetModule);
+            $isAlwaysActive = $this->isAlwaysActive($targetModule);
             $moduleExtends = (is_array($extra = $package->getExtra()) ? $extra['cortex-module']['extends'] : null) ?? null;
 
-            $targetModuleAttributes = ['active' => $isCore ? true : false, 'autoload' => $isCore ? true : false, 'version' => $package->getPrettyVersion(), 'extends' => $moduleExtends];
+            $targetModuleAttributes = ['active' => $isAlwaysActive ? true : false, 'autoload' => $isAlwaysActive ? true : false, 'version' => $package->getPrettyVersion(), 'extends' => $moduleExtends];
 
             $this->manifest->load()->remove($initialModule)->persist();
             $this->manifest->load()->add($targetModule, $targetModuleAttributes)->persist();
