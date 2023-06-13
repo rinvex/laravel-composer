@@ -108,9 +108,9 @@ class ModuleInstaller extends LibraryInstaller
             $initialModule = $initial->getPrettyName();
             $targetModule = $target->getPrettyName();
             $isAlwaysActive = $this->isAlwaysActive($targetModule);
-            $moduleExtends = (is_array($extra = $package->getExtra()) ? $extra['cortex-module']['extends'] : null) ?? null;
+            $moduleExtends = (is_array($extra = $target->getExtra()) ? $extra['cortex-module']['extends'] : null) ?? null;
 
-            $targetModuleAttributes = ['active' => $isAlwaysActive ? true : false, 'autoload' => $isAlwaysActive ? true : false, 'version' => $package->getPrettyVersion(), 'extends' => $moduleExtends];
+            $targetModuleAttributes = ['active' => $isAlwaysActive ? true : false, 'autoload' => $isAlwaysActive ? true : false, 'version' => $target->getPrettyVersion(), 'extends' => $moduleExtends];
 
             $this->manifest->load()->remove($initialModule)->persist();
             $this->manifest->load()->add($targetModule, $targetModuleAttributes)->persist();
