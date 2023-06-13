@@ -5,6 +5,9 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 
 
+## [v7.2.1] - 2023-06-13
+- Fix wrong variable name
+
 ## [v7.2.0] - 2023-06-10
 - Rename isCore to isAlwaysActive
 - Add module extensions support to composer module installer
@@ -125,6 +128,7 @@ This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 ## v0.0.1 - 2018-02-18
 - Tag first release
 
+[v7.2.1]: https://github.com/rinvex/laravel-composer/compare/v7.2.0...v7.2.1
 [v7.2.0]: https://github.com/rinvex/laravel-composer/compare/v7.1.0...v7.2.0
 [v7.1.0]: https://github.com/rinvex/laravel-composer/compare/v7.0.0...v7.1.0
 [v7.0.0]: https://github.com/rinvex/laravel-composer/compare/v6.1.0...v7.0.0
