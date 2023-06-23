@@ -71,7 +71,7 @@ class ModuleInstaller extends LibraryInstaller
         $afterInstall = function () use ($package) {
             $module = $package->getPrettyName();
             $isAlwaysActive = $this->isAlwaysActive($module);
-            $moduleExtends = (is_array($extra = $package->getExtra()) ? $extra['cortex-module']['extends'] : null) ?? null;
+            $moduleExtends = is_array($extra = $package->getExtra()) ? ($extra['cortex-module']['extends'] ?? null) : null;
 
             $attributes = ['active' => $isAlwaysActive ? true : false, 'autoload' => $isAlwaysActive ? true : false, 'version' => $package->getPrettyVersion(), 'extends' => $moduleExtends];
             $this->manifest->load()->add($module, $attributes)->persist();
@@ -108,7 +108,7 @@ class ModuleInstaller extends LibraryInstaller
             $initialModule = $initial->getPrettyName();
             $targetModule = $target->getPrettyName();
             $isAlwaysActive = $this->isAlwaysActive($targetModule);
-            $moduleExtends = (is_array($extra = $target->getExtra()) ? $extra['cortex-module']['extends'] : null) ?? null;
+            $moduleExtends = is_array($extra = $target->getExtra()) ? ($extra['cortex-module']['extends'] ?? null) : null;
 
             $targetModuleAttributes = ['active' => $isAlwaysActive ? true : false, 'autoload' => $isAlwaysActive ? true : false, 'version' => $target->getPrettyVersion(), 'extends' => $moduleExtends];
 
