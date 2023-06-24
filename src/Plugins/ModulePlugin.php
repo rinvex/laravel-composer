@@ -12,11 +12,18 @@ use Rinvex\Composer\Installers\ModuleInstaller;
 class ModulePlugin implements PluginInterface
 {
     /**
-     * The composer installer instance.
+     * The composer module installer instance.
      *
      * @var \Rinvex\Composer\Installers\ModuleInstaller
      */
-    protected $installer;
+    protected $moduleInstaller;
+
+    /**
+     * The composer extension installer instance.
+     *
+     * @var \Rinvex\Composer\Installers\ModuleInstaller
+     */
+    protected $extensionInstaller;
 
     /**
      * Apply plugin modifications to Composer.
@@ -28,9 +35,11 @@ class ModulePlugin implements PluginInterface
      */
     public function activate(Composer $composer, IOInterface $io)
     {
-        $this->installer = new ModuleInstaller($io, $composer);
+        $this->moduleInstaller = new ModuleInstaller($io, $composer, 'cortex-module');
+        $this->extensionInstaller = new ModuleInstaller($io, $composer, 'cortex-extension');
 
-        $composer->getInstallationManager()->addInstaller($this->installer);
+        $composer->getInstallationManager()->addInstaller($this->moduleInstaller);
+        $composer->getInstallationManager()->addInstaller($this->extensionInstaller);
     }
 
     /**
@@ -45,7 +54,8 @@ class ModulePlugin implements PluginInterface
      */
     public function deactivate(Composer $composer, IOInterface $io)
     {
-        $composer->getInstallationManager()->removeInstaller($this->installer);
+        $composer->getInstallationManager()->removeInstaller($this->moduleInstaller);
+        $composer->getInstallationManager()->removeInstaller($this->extensionInstaller);
     }
 
     /**

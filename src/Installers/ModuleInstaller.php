@@ -20,7 +20,7 @@ class ModuleInstaller extends LibraryInstaller
      */
     public function supports($packageType)
     {
-        return in_array($packageType, array_keys($this->config));
+        return $packageType === $this->type && in_array($packageType, array_keys($this->config));
     }
 
     /**
