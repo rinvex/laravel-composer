@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Rinvex\Composer\Installers;
 
 use Illuminate\Support\Arr;
-use React\Promise\PromiseInterface;
 use Composer\Package\PackageInterface;
 use Composer\Repository\InstalledRepositoryInterface;
 
@@ -99,7 +98,7 @@ class ModuleInstaller extends LibraryInstaller
             $this->manifest->load()->remove($initialModule)->persist();
             $this->manifest->load()->add($targetModule, $targetModuleAttributes)->persist();
         });
-}
+    }
 
     /**
      * Uninstalls specific package.
