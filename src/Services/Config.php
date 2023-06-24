@@ -14,7 +14,7 @@ class Config
      *
      * @var array|null
      */
-    protected static $configCache = null;
+    protected static $configCache;
 
     /**
      * Get configuration options.
