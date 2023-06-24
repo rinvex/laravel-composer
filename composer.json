@@ -78,8 +78,7 @@
             ]
         },
         "class": [
-            "Rinvex\\Composer\\Plugins\\ModulePlugin",
-            "Rinvex\\Composer\\Plugins\\CustomPlugin"
+            "Rinvex\\Composer\\Plugins\\ModulePlugin"
         ]
     },
     "minimum-stability": "dev",
