@@ -5,6 +5,9 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 
 
+## [v7.3.1] - 2023-06-24
+- Register two different composer installer instances for modules & extensions
+
 ## [v7.3.0] - 2023-06-24
 - Refactor to support modules & extensions, and simplify event listeners
 
@@ -134,6 +137,7 @@ This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 ## v0.0.1 - 2018-02-18
 - Tag first release
 
+[v7.3.1]: https://github.com/rinvex/laravel-composer/compare/v7.3.0...v7.3.1
 [v7.3.0]: https://github.com/rinvex/laravel-composer/compare/v7.2.2...v7.3.0
 [v7.2.2]: https://github.com/rinvex/laravel-composer/compare/v7.2.1...v7.2.2
 [v7.2.1]: https://github.com/rinvex/laravel-composer/compare/v7.2.0...v7.2.1
