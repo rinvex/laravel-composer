@@ -33,20 +33,20 @@ As it should be clear, the main purpose of this package is to modify composer's 
 ### Supported Package Types
 
 - cortex-module
+- cortex-extension
 - cortex-custom
 
 > **Note:** Checkout Composer's [Custom Installers](https://github.com/composer/composer/blob/master/doc/articles/custom-installers.md)
 
 ### Basic Usage
 
-All Rinvex Cortex modules are installed into the following paths accordingly:
+Rinvex Cortex modules and extensions are installed into the configurable paths, so you can install them anywhere you want. By default, the following paths are configured:
 
-- **`cortex-module`** - `app`
-- **`cortex-custom`** - `custom/path`
+- **`cortex-module`** - `config('rinvex.composer.cortex-modules.path')` (default: `app/modules`) 
+- **`cortex-extension`** - `config('rinvex.composer.cortex-extensions.path')` (default: `app/extensions`)
+- **`cortex-custom`** - `custom/path` (configured per package, from `extra.path` attribute in `composer.json`)
 
-So if you're building a new Rinvex Cortex module, you have to add the appropriate composer package type in your package's `composer.json`, such as `"type": "cortex-module"` for modules.
-
-> **Note:** Checkout Rinvex [Module Package](https://github.com/rinvex/module) documentation for further details.
+So if you're building a new Rinvex Cortex module, you have to add the appropriate composer package type in your package's `composer.json`, such as `"type": "cortex-module"` for modules, and `"type": "cortex-extension"` for extensions, and then run `composer install` or `composer update` at your application root directory, and **Rinvex Composer** Installer will detect the package type and install it to the appropriate directory.
 
 ### Custom Paths
 

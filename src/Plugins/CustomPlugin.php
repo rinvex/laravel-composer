@@ -23,6 +23,8 @@ class CustomPlugin implements PluginInterface
      *
      * @param Composer    $composer
      * @param IOInterface $io
+     *
+     * @throws \Exception
      */
     public function activate(Composer $composer, IOInterface $io)
     {

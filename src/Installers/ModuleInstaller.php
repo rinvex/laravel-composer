@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rinvex\Composer\Installers;
 
+use Illuminate\Support\Arr;
 use React\Promise\PromiseInterface;
 use Composer\Package\PackageInterface;
 use Composer\Repository\InstalledRepositoryInterface;
@@ -19,17 +20,7 @@ class ModuleInstaller extends LibraryInstaller
      */
     public function supports($packageType)
     {
-        return $packageType === 'cortex-module';
-    }
-
-    /**
-     * Returns the installation path of a package.
-     *
-     * @return string
-     */
-    public function getModulesPath(string $module = null)
-    {
-        return $this->laravel->path($module);
+        return in_array($packageType, array_keys($this->config));
     }
 
     /**
@@ -41,19 +32,19 @@ class ModuleInstaller extends LibraryInstaller
      */
     public function getInstallPath(PackageInterface $package)
     {
-        return $this->getModulesPath($package->getPrettyName());
+        return $this->laravel->joinPaths(Arr::get($this->config, $package->getType().'.path'), $package->getPrettyName());
     }
 
     /**
-     * Check if given module is core or not.
+     * Check if given package is always active or not.
      *
-     * @param string $module
+     * @param \Composer\Package\PackageInterface $package
      *
      * @return bool
      */
-    protected function isAlwaysActive(string $module): bool
+    protected function isAlwaysActive(PackageInterface $package): bool
     {
-        return in_array($module, $this->getConfig('always_active'));
+        return in_array($package->getPrettyName(), Arr::get($this->config, $package->getType().'.always_active'));
     }
 
     /**
@@ -68,26 +59,17 @@ class ModuleInstaller extends LibraryInstaller
      */
     public function install(InstalledRepositoryInterface $repo, PackageInterface $package)
     {
-        $afterInstall = function () use ($package) {
-            $module = $package->getPrettyName();
-            $isAlwaysActive = $this->isAlwaysActive($module);
-            $moduleExtends = is_array($extra = $package->getExtra()) ? ($extra['cortex-module']['extends'] ?? null) : null;
-
-            $attributes = ['active' => $isAlwaysActive ? true : false, 'autoload' => $isAlwaysActive ? true : false, 'version' => $package->getPrettyVersion(), 'extends' => $moduleExtends];
-            $this->manifest->load()->add($module, $attributes)->persist();
-        };
-
-        // Install module, the normal composer way
         $promise = parent::install($repo, $package);
 
-        // Composer v2 might return a promise
-        if ($promise instanceof PromiseInterface) {
-            return $promise->then($afterInstall);
-        }
+        return $promise->then(function () use ($package) {
+            $isAlwaysActive = $this->isAlwaysActive($package);
 
-        // If not, execute the code right away as parent::install
-        // executed synchronously (composer v1, or v2 without async)
-        $afterInstall();
+            $attributes = $package->getType() === 'cortex-extension'
+                ? ['active' => $isAlwaysActive ? true : false, 'autoload' => $isAlwaysActive ? true : false, 'version' => $package->getPrettyVersion(), 'extends' => is_array($extra = $package->getExtra()) ? ($extra['cortex']['extends'] ?? null) : null]
+                : ['active' => $isAlwaysActive ? true : false, 'autoload' => $isAlwaysActive ? true : false, 'version' => $package->getPrettyVersion()];
+
+            $this->manifest->load()->add($package->getPrettyName(), $attributes)->persist();
+        });
     }
 
     /**
@@ -104,30 +86,20 @@ class ModuleInstaller extends LibraryInstaller
      */
     public function update(InstalledRepositoryInterface $repo, PackageInterface $initial, PackageInterface $target)
     {
-        $afterUpdate = function () use ($initial, $target) {
+        $promise = parent::update($repo, $initial, $target);
+
+        return $promise->then(function () use ($initial, $target) {
             $initialModule = $initial->getPrettyName();
             $targetModule = $target->getPrettyName();
             $isAlwaysActive = $this->isAlwaysActive($targetModule);
-            $moduleExtends = is_array($extra = $target->getExtra()) ? ($extra['cortex-module']['extends'] ?? null) : null;
+            $moduleExtends = is_array($extra = $target->getExtra()) ? ($extra['cortex']['extends'] ?? null) : null;
 
             $targetModuleAttributes = ['active' => $isAlwaysActive ? true : false, 'autoload' => $isAlwaysActive ? true : false, 'version' => $target->getPrettyVersion(), 'extends' => $moduleExtends];
 
             $this->manifest->load()->remove($initialModule)->persist();
             $this->manifest->load()->add($targetModule, $targetModuleAttributes)->persist();
-        };
-
-        // Update module, the normal composer way
-        $promise = parent::update($repo, $initial, $target);
-
-        // Composer v2 might return a promise
-        if ($promise instanceof PromiseInterface) {
-            return $promise->then($afterUpdate);
-        }
-
-        // If not, execute the code right away as parent::update
-        // executed synchronously (composer v1, or v2 without async)
-        $afterUpdate();
-    }
+        });
+}
 
     /**
      * Uninstalls specific package.
@@ -141,21 +113,10 @@ class ModuleInstaller extends LibraryInstaller
      */
     public function uninstall(InstalledRepositoryInterface $repo, PackageInterface $package)
     {
-        $afterUninstall = function () use ($package) {
-            $module = $package->getPrettyName();
-            $this->manifest->load()->remove($module)->persist();
-        };
-
-        // Uninstall the package the normal composer way
         $promise = parent::uninstall($repo, $package);
 
-        // Composer v2 might return a promise
-        if ($promise instanceof PromiseInterface) {
-            return $promise->then($afterUninstall);
-        }
-
-        // If not, execute the code right away as parent::uninstall
-        // executed synchronously (composer v1, or v2 without async)
-        $afterUninstall();
+        return $promise->then(function () use ($package) {
+            $this->manifest->load()->remove($package->getPrettyName())->persist();
+        });
     }
 }
