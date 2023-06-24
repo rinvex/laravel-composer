@@ -7,16 +7,17 @@ namespace Rinvex\Composer\Plugins;
 use Composer\Composer;
 use Composer\IO\IOInterface;
 use Composer\Plugin\PluginInterface;
+use Rinvex\Composer\Services\Config;
 use Rinvex\Composer\Installers\ModuleInstaller;
 
 class ModulePlugin implements PluginInterface
 {
     /**
-     * The composer module installer instance.
+     * The composer installer instances.
      *
-     * @var \Rinvex\Composer\Installers\ModuleInstaller
+     * @var \Rinvex\Composer\Installers\ModuleInstaller[]
      */
-    protected $moduleInstaller;
+    protected $installers;
 
     /**
      * The composer extension installer instance.
@@ -35,11 +36,10 @@ class ModulePlugin implements PluginInterface
      */
     public function activate(Composer $composer, IOInterface $io)
     {
-        $this->moduleInstaller = new ModuleInstaller($io, $composer, 'cortex-module');
-        $this->extensionInstaller = new ModuleInstaller($io, $composer, 'cortex-extension');
-
-        $composer->getInstallationManager()->addInstaller($this->moduleInstaller);
-        $composer->getInstallationManager()->addInstaller($this->extensionInstaller);
+        foreach (Config::getKeys() as $type) {
+            $this->installers[] = ($installer = new ModuleInstaller($io, $composer, $type));
+            $composer->getInstallationManager()->addInstaller($installer);
+        }
     }
 
     /**
@@ -54,8 +54,9 @@ class ModulePlugin implements PluginInterface
      */
     public function deactivate(Composer $composer, IOInterface $io)
     {
-        $composer->getInstallationManager()->removeInstaller($this->moduleInstaller);
-        $composer->getInstallationManager()->removeInstaller($this->extensionInstaller);
+        foreach ($this->installers as $installer) {
+            $composer->getInstallationManager()->removeInstaller($installer);
+        }
     }
 
     /**

@@ -4,13 +4,51 @@ declare(strict_types=1);
 
 namespace Rinvex\Composer\Installers;
 
+use Composer\Composer;
 use Illuminate\Support\Arr;
+use Composer\IO\IOInterface;
+use Composer\Util\Filesystem;
 use React\Promise\PromiseInterface;
+use Rinvex\Composer\Services\Config;
+use Illuminate\Foundation\Application;
 use Composer\Package\PackageInterface;
+use Composer\Installer\BinaryInstaller;
+use Composer\Installer\LibraryInstaller;
+use Rinvex\Composer\Services\ModuleManifest;
 use Composer\Repository\InstalledRepositoryInterface;
 
 class ModuleInstaller extends LibraryInstaller
 {
+    /**
+     * Module manifest instance.
+     *
+     * @var \Rinvex\Composer\Services\ModuleManifest
+     */
+    public $manifest;
+
+    /**
+     * Laravel application instance.
+     *
+     * @var \Illuminate\Foundation\Application
+     */
+    public $laravel;
+
+    /**
+     * Initializes library installer.
+     *
+     * @param IOInterface     $io
+     * @param Composer        $composer
+     * @param string          $type
+     * @param Filesystem      $filesystem
+     * @param BinaryInstaller $binaryInstaller
+     */
+    public function __construct(IOInterface $io, Composer $composer, $type = 'library', Filesystem $filesystem = null, BinaryInstaller $binaryInstaller = null)
+    {
+        parent::__construct($io, $composer, $type, $filesystem, $binaryInstaller);
+
+        $this->manifest = new ModuleManifest(Config::get($type.'.manifest'));
+    }
+
     /**
      * Decides if the installer supports the given type.
      *
@@ -20,7 +58,7 @@ class ModuleInstaller extends LibraryInstaller
      */
     public function supports($packageType)
     {
-        return $packageType === $this->type && in_array($packageType, array_keys($this->config));
+        return $packageType === $this->type && in_array($packageType, Config::getKeys());
     }
 
     /**
@@ -32,7 +70,9 @@ class ModuleInstaller extends LibraryInstaller
      */
     public function getInstallPath(PackageInterface $package)
     {
-        return $this->laravel->joinPaths(Arr::get($this->config, $package->getType().'.path'), $package->getPrettyName());
+        $path = $package->getPrettyName();
+
+        return Config::get($package->getType().'.path').($path != '' ? DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR) : '');
     }
 
     /**
@@ -44,7 +84,7 @@ class ModuleInstaller extends LibraryInstaller
      */
     protected function isAlwaysActive(PackageInterface $package): bool
     {
-        return in_array($package->getPrettyName(), Arr::get($this->config, $package->getType().'.always_active'));
+        return in_array($package->getPrettyName(), Config::get($package->getType().'.always_active'));
     }
 
     /**

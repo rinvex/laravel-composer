@@ -28,15 +28,16 @@
 
 ## Usage
 
-As it should be clear, the main purpose of this package is to modify composer's behaviour so packages of custom types could be installed in directories other than the default `vendor`.
+As it should be clear, the main purpose of this package is to modify composer's behaviour so packages of custom types could be installed in directories other than the default `vendor`. This is done by utilizing Composer Plugin API, and the package comes with a built-in plugin that handles the installation of Rinvex Cortex modules and extensions.
 
 ### Supported Package Types
 
 - cortex-module
 - cortex-extension
-- cortex-custom
 
-> **Note:** Checkout Composer's [Custom Installers](https://github.com/composer/composer/blob/master/doc/articles/custom-installers.md)
+> **Notes:**
+> - Checkout Composer's [Custom Installers](https://github.com/composer/composer/blob/master/doc/articles/custom-installers.md)
+> - Additional custom package types can be added through the config file. The config file is published to `config/rinvex.composer.php` and contains detailed examples custom package types.
 
 ### Basic Usage
 
@@ -44,7 +45,6 @@ Rinvex Cortex modules and extensions are installed into the configurable paths, 
 
 - **`cortex-module`** - `config('rinvex.composer.cortex-modules.path')` (default: `app/modules`) 
 - **`cortex-extension`** - `config('rinvex.composer.cortex-extensions.path')` (default: `app/extensions`)
-- **`cortex-custom`** - `custom/path` (configured per package, from `extra.path` attribute in `composer.json`)
 
 So if you're building a new Rinvex Cortex module, you have to add the appropriate composer package type in your package's `composer.json`, such as `"type": "cortex-module"` for modules, and `"type": "cortex-extension"` for extensions, and then run `composer install` or `composer update` at your application root directory, and **Rinvex Composer** Installer will detect the package type and install it to the appropriate directory.
 
@@ -61,24 +61,6 @@ This is a powerful feature available for more flexibility and control over packa
 }
 ```
 Then you've to run `composer install` or `composer update` at your application root directory, and **Rinvex Composer** Installer will detect the custom package type and look for `extra.path`. If it finds it; the package will be installed to that custom directory.
-
-### Overriding Custom Paths
-
-It's nice to give packages the ability to set their own installation paths, but on some hosts where there's some restrictions it may be a problem; In such case you may have to take control and enforce these packages to be installed within certain directory.
-
-You can override package-level paths at the application-level through `extra.paths` attribute in your application `composer.json` file:
-```json
-"require": {
-    "vendor/package": "^1.0.0"
-},
-"extra": {
-    "paths": {
-        "vendor/package": "enforced/overriden/path/for/vendor/package/"
-    }
-}
-```
-
-Accordingly, this application-level path override will take precedence over any package-level custom paths.
 
 
 ## Resources
