@@ -30,6 +30,13 @@ class LibraryInstaller extends BaseLibraryInstaller
     public $laravel;
 
     /**
+     * Loaded config options.
+     *
+     * @var array
+     */
+    public $config;
+
+    /**
      * Initializes library installer.
      *
      * @param IOInterface     $io
@@ -38,23 +45,22 @@ class LibraryInstaller extends BaseLibraryInstaller
      * @param Filesystem      $filesystem
      * @param BinaryInstaller $binaryInstaller
      */
-    public function __construct(IOInterface $io, Composer $composer, $type = 'library', Filesystem $filesystem = null, BinaryInstaller $binaryInstaller = null)
+    public function __construct(IOInterface $io, Composer $composer, $type = 'cortex-module', Filesystem $filesystem = null, BinaryInstaller $binaryInstaller = null)
     {
         parent::__construct($io, $composer, $type, $filesystem, $binaryInstaller);
 
         $this->laravel = new Application(getcwd());
-        $modulesManifestPath = $this->laravel->bootstrapPath('cache'.DIRECTORY_SEPARATOR.'modules.php');
-        $this->manifest = new ModuleManifest($modulesManifestPath);
+        $this->config = $this->loadConfig();
+        $this->manifest = new ModuleManifest(Arr::get($this->config, $type.'.manifest'));
+        //$this->manifest->load()->persist();
     }
 
     /**
-     * Get config options.
+     * load config options.
      *
-     * @param string|null $key
-     *
-     * @return mixed
+     * @return array
      */
-    public function getConfig(string $key = null)
+    public function loadConfig()
     {
         $vendorConfig = __DIR__.'/../../config/config.php';
         $appConfig = $this->laravel->configPath().'/rinvex.composer.php';
@@ -62,8 +68,6 @@ class LibraryInstaller extends BaseLibraryInstaller
         $config = is_file($appConfig) ? require $appConfig
             : (is_file($vendorConfig) ? require $vendorConfig : []);
 
-        $config = Arr::dot($config);
-
-        return ! is_null($key) && isset($config[$key]) ? $config[$key] : $config;
+        return $this->config = $config;
     }
 }

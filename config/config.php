@@ -4,9 +4,21 @@ declare(strict_types=1);
 
 return [
 
-    'always_active' => [
-        'cortex/foundation',
-        'cortex/auth',
+    'cortex-module' => [
+        'path' => app()->path('modules'),
+        'manifest' => app()->bootstrapPath('cache'.DIRECTORY_SEPARATOR.'modules.php'),
+
+        'always_active' => [
+            'cortex/foundation',
+            'cortex/auth',
+        ],
+    ],
+
+    'cortex-extension' => [
+        'path' => app()->path('extensions'),
+        'manifest' => app()->bootstrapPath('cache'.DIRECTORY_SEPARATOR.'extensions.php'),
+
+        'always_active' => [],
     ],
 
 ];
