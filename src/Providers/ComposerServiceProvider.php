@@ -38,7 +38,7 @@ class ComposerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Publish Resources
-        $this->publishesConfig('rinvex/laravel-composer');
+        // Register paths to be published by the publish command.
+        $this->publishConfigFrom(__DIR__.'/../../config/config.php', 'rinvex/composer');
     }
 }

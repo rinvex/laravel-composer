@@ -6,7 +6,7 @@ namespace Rinvex\Composer\Services;
 
 use Exception;
 
-class ModuleManifest
+class Manifest
 {
     /**
      * Modules manifest content.
@@ -23,7 +23,7 @@ class ModuleManifest
     protected $path;
 
     /**
-     * Create a new ModuleManifest instance.
+     * Create a new Manifest instance.
      *
      * @param string $path
      */

@@ -46,7 +46,7 @@ This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 
 ## [v5.0.3] - 2020-12-29
 - Rename core_modules to always_active
-- Add get method to ModuleManifest class for retrieving module attributes
+- Add get method to Manifest class for retrieving module attributes
 
 ## [v5.0.2] - 2020-12-27
 - Apply fixes from StyleCI
