@@ -2,27 +2,27 @@
 
 declare(strict_types=1);
 
-namespace Rinvex\Composer\Installers;
+namespace Rinvex\Composer\Models;
 
 use Composer\Composer;
 use Illuminate\Support\Arr;
 use Composer\IO\IOInterface;
 use Composer\Util\Filesystem;
+use Rinvex\Composer\Models\Config;
 use React\Promise\PromiseInterface;
-use Rinvex\Composer\Services\Config;
+use Rinvex\Composer\Models\Manifest;
 use Illuminate\Foundation\Application;
 use Composer\Package\PackageInterface;
 use Composer\Installer\BinaryInstaller;
 use Composer\Installer\LibraryInstaller;
-use Rinvex\Composer\Services\Manifest;
 use Composer\Repository\InstalledRepositoryInterface;
 
-class ModuleInstaller extends LibraryInstaller
+class Installer extends LibraryInstaller
 {
     /**
      * Module manifest instance.
      *
-     * @var \Rinvex\Composer\Services\Manifest
+     * @var \Rinvex\Composer\Models\Manifest
      */
     public $manifest;
 

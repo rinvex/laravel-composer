@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rinvex\Composer\Services;
+namespace Rinvex\Composer\Models;
 
 use Illuminate\Support\Arr;
 
