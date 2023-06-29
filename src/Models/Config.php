@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Rinvex\Composer\Models;
 
 use Illuminate\Support\Arr;
-use Illuminate\Foundation\Application;
 
 class Config
 {
@@ -30,7 +29,7 @@ class Config
 
         // Otherwise, load the configuration from file
         $vendorConfig = __DIR__.'/../../config/config.php';
-        $appConfig = Application::configPath('rinvex.composer.php');
+        $appConfig = app('path.config')->configPath('rinvex.composer.php');
 
         // Cache and return the loaded configuration
         return self::$configCache = is_file($appConfig) ? require $appConfig : (is_file($vendorConfig) ? require $vendorConfig : []);
