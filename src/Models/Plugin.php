@@ -2,27 +2,27 @@
 
 declare(strict_types=1);
 
-namespace Rinvex\Composer\Plugins;
+namespace Rinvex\Composer\Models;
 
 use Composer\Composer;
 use Composer\IO\IOInterface;
 use Composer\Plugin\PluginInterface;
-use Rinvex\Composer\Services\Config;
-use Rinvex\Composer\Installers\ModuleInstaller;
+use Rinvex\Composer\Models\Config;
+use Rinvex\Composer\Models\Installer;
 
-class ModulePlugin implements PluginInterface
+class Plugin implements PluginInterface
 {
     /**
      * The composer installer instances.
      *
-     * @var \Rinvex\Composer\Installers\ModuleInstaller[]
+     * @var \Rinvex\Composer\Models\Installer[]
      */
     protected $installers;
 
     /**
      * The composer extension installer instance.
      *
-     * @var \Rinvex\Composer\Installers\ModuleInstaller
+     * @var \Rinvex\Composer\Models\Installer
      */
     protected $extensionInstaller;
 
@@ -37,7 +37,7 @@ class ModulePlugin implements PluginInterface
     public function activate(Composer $composer, IOInterface $io)
     {
         foreach (Config::getKeys() as $type) {
-            $this->installers[] = ($installer = new ModuleInstaller($io, $composer, $type));
+            $this->installers[] = ($installer = new Installer($io, $composer, $type));
             $composer->getInstallationManager()->addInstaller($installer);
         }
     }

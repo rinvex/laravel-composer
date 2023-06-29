@@ -2,27 +2,27 @@
 
 declare(strict_types=1);
 
-namespace Rinvex\Composer\Installers;
+namespace Rinvex\Composer\Models;
 
 use Composer\Composer;
 use Illuminate\Support\Arr;
 use Composer\IO\IOInterface;
 use Composer\Util\Filesystem;
+use Rinvex\Composer\Models\Config;
 use React\Promise\PromiseInterface;
-use Rinvex\Composer\Services\Config;
+use Rinvex\Composer\Models\Manifest;
 use Illuminate\Foundation\Application;
 use Composer\Package\PackageInterface;
 use Composer\Installer\BinaryInstaller;
 use Composer\Installer\LibraryInstaller;
-use Rinvex\Composer\Services\ModuleManifest;
 use Composer\Repository\InstalledRepositoryInterface;
 
-class ModuleInstaller extends LibraryInstaller
+class Installer extends LibraryInstaller
 {
     /**
      * Module manifest instance.
      *
-     * @var \Rinvex\Composer\Services\ModuleManifest
+     * @var \Rinvex\Composer\Models\Manifest
      */
     public $manifest;
 
@@ -46,7 +46,7 @@ class ModuleInstaller extends LibraryInstaller
     {
         parent::__construct($io, $composer, $type, $filesystem, $binaryInstaller);
 
-        $this->manifest = new ModuleManifest(Config::get($type.'.manifest'));
+        $this->manifest = new Manifest(Config::get($type.'.manifest'));
     }
 
     /**
@@ -105,8 +105,8 @@ class ModuleInstaller extends LibraryInstaller
             $isAlwaysActive = $this->isAlwaysActive($package);
 
             $attributes = $package->getType() === 'cortex-extension'
-                ? ['active' => $isAlwaysActive ? true : false, 'autoload' => $isAlwaysActive ? true : false, 'version' => $package->getPrettyVersion(), 'extends' => is_array($extra = $package->getExtra()) ? ($extra['cortex']['extends'] ?? null) : null]
-                : ['active' => $isAlwaysActive ? true : false, 'autoload' => $isAlwaysActive ? true : false, 'version' => $package->getPrettyVersion()];
+                ? ['active' => $isAlwaysActive, 'autoload' => $isAlwaysActive, 'version' => $package->getPrettyVersion(), 'extends' => is_array($extra = $package->getExtra()) ? ($extra['cortex']['extends'] ?? null) : null]
+                : ['active' => $isAlwaysActive, 'autoload' => $isAlwaysActive, 'version' => $package->getPrettyVersion()];
 
             $this->manifest->load()->add($package->getPrettyName(), $attributes)->persist();
         });
@@ -129,15 +129,15 @@ class ModuleInstaller extends LibraryInstaller
         $promise = parent::update($repo, $initial, $target);
 
         return $promise->then(function () use ($initial, $target) {
-            $initialModule = $initial->getPrettyName();
-            $targetModule = $target->getPrettyName();
-            $isAlwaysActive = $this->isAlwaysActive($targetModule);
-            $moduleExtends = is_array($extra = $target->getExtra()) ? ($extra['cortex']['extends'] ?? null) : null;
+            $initialModule = $this->manifest->get($target->getPrettyName());
+            $isAlwaysActive = $this->isAlwaysActive($target->getPrettyName());
 
-            $targetModuleAttributes = ['active' => $isAlwaysActive ? true : false, 'autoload' => $isAlwaysActive ? true : false, 'version' => $target->getPrettyVersion(), 'extends' => $moduleExtends];
+            $targetModuleAttributes = $target->getType() === 'cortex-extension'
+                ? ['active' => $initialModule['active'] ?? $isAlwaysActive, 'autoload' => $initialModule['autoload'] ?? $isAlwaysActive, 'version' => $target->getPrettyVersion(), 'extends' => is_array($extra = $target->getExtra()) ? ($extra['cortex']['extends'] ?? null) : null]
+                : ['active' => $initialModule['active'] ?? $isAlwaysActive, 'autoload' => $initialModule['autoload'] ?? $isAlwaysActive, 'version' => $target->getPrettyVersion()];
 
-            $this->manifest->load()->remove($initialModule)->persist();
-            $this->manifest->load()->add($targetModule, $targetModuleAttributes)->persist();
+            $this->manifest->load()->remove($initial->getPrettyName())->persist();
+            $this->manifest->load()->add($target->getPrettyName(), $targetModuleAttributes)->persist();
         });
 }
 

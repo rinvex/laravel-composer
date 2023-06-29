@@ -6,7 +6,7 @@ return [
 
     'cortex-module' => [
         'path' => app()->path('modules'),
-        'manifest' => app()->bootstrapPath('cache'.DIRECTORY_SEPARATOR.'modules.php'),
+        'manifest' => app()->getCachedModulesPath(),
 
         'always_active' => [
             'cortex/foundation',
@@ -16,7 +16,7 @@ return [
 
     'cortex-extension' => [
         'path' => app()->path('extensions'),
-        'manifest' => app()->bootstrapPath('cache'.DIRECTORY_SEPARATOR.'extensions.php'),
+        'manifest' => app()->getCachedExtensionsPath(),
 
         'always_active' => [],
     ],

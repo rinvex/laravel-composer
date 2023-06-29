@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Rinvex\Composer\Services;
+namespace Rinvex\Composer\Models;
 
 use Exception;
 
-class ModuleManifest
+class Manifest
 {
     /**
      * Modules manifest content.
@@ -23,7 +23,7 @@ class ModuleManifest
     protected $path;
 
     /**
-     * Create a new ModuleManifest instance.
+     * Create a new Manifest instance.
      *
      * @param string $path
      */
