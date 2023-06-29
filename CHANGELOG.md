@@ -5,6 +5,9 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 
 
+## [v7.5.4] - 2023-06-29
+- Reverse "Add application macros getCachedModulesPath & getCachedExtensionsPath"
+
 ## [v7.5.3] - 2023-06-29
 - Fix app instance used very early
 
@@ -154,6 +157,7 @@ This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 ## v0.0.1 - 2018-02-18
 - Tag first release
 
+[v7.5.4]: https://github.com/rinvex/laravel-composer/compare/v7.5.3...v7.5.4
 [v7.5.3]: https://github.com/rinvex/laravel-composer/compare/v7.5.2...v7.5.3
 [v7.5.2]: https://github.com/rinvex/laravel-composer/compare/v7.5.1...v7.5.2
 [v7.5.1]: https://github.com/rinvex/laravel-composer/compare/v7.5.0...v7.5.1
