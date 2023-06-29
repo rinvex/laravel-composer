@@ -42,7 +42,7 @@ class ComposerServiceProvider extends ServiceProvider
         $this->publishConfigFrom(__DIR__.'/../../config/config.php', 'rinvex/composer');
 
         // Get the paths to the module and extension cache files.
-        $this->app->macro('getCachedModulesPath', fn() => $this->normalizeCachePath('APP_MODULES_CACHE', 'cache/modules.php'));
-        $this->app->macro('getCachedExtensionsPath', fn() => $this->normalizeCachePath('APP_EXTENSIONS_CACHE', 'cache/extensions.php'));
+        $this->app->macro('getCachedModulesPath', fn () => $this->normalizeCachePath('APP_MODULES_CACHE', 'cache/modules.php'));
+        $this->app->macro('getCachedExtensionsPath', fn () => $this->normalizeCachePath('APP_EXTENSIONS_CACHE', 'cache/extensions.php'));
     }
 }

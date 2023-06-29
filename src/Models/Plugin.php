@@ -7,8 +7,6 @@ namespace Rinvex\Composer\Models;
 use Composer\Composer;
 use Composer\IO\IOInterface;
 use Composer\Plugin\PluginInterface;
-use Rinvex\Composer\Models\Config;
-use Rinvex\Composer\Models\Installer;
 
 class Plugin implements PluginInterface
 {
