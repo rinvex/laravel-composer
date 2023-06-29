@@ -6,9 +6,7 @@ return [
 
     'cortex-module' => [
         'path' => app()->path('modules'),
-        // We're not using `app()->getCachedModulesPath()` approach because it requires
-        // modifying the `Application::class` which is not within the scope of this package.
-        'manifest' => app()->bootstrapPath('cache'.DIRECTORY_SEPARATOR.'modules.php'),
+        'manifest' => app()->getCachedModulesPath(),
 
         'always_active' => [
             'cortex/foundation',
@@ -18,7 +16,7 @@ return [
 
     'cortex-extension' => [
         'path' => app()->path('extensions'),
-        'manifest' => app()->bootstrapPath('cache'.DIRECTORY_SEPARATOR.'extensions.php'),
+        'manifest' => app()->getCachedExtensionsPath(),
 
         'always_active' => [],
     ],
