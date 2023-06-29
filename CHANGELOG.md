@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 
 
+## [v7.5.0] - 2023-06-29
+- Add application macros getCachedModulesPath & getCachedExtensionsPath
+- Tweak and improve custom composer plugin/installer
+- Simplify namespaces
+
 ## [v7.4.0] - 2023-06-25
 - Refactor to support dynamic custom package types and drop CustomPlugin
 
@@ -140,6 +145,7 @@ This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 ## v0.0.1 - 2018-02-18
 - Tag first release
 
+[v7.5.0]: https://github.com/rinvex/laravel-composer/compare/v7.4.0...v7.5.0
 [v7.4.0]: https://github.com/rinvex/laravel-composer/compare/v7.3.1...v7.4.0
 [v7.3.1]: https://github.com/rinvex/laravel-composer/compare/v7.3.0...v7.3.1
 [v7.3.0]: https://github.com/rinvex/laravel-composer/compare/v7.2.2...v7.3.0
