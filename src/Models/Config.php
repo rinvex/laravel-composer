@@ -30,7 +30,7 @@ class Config
 
         // Otherwise, load the configuration from file
         $vendorConfig = __DIR__.'/../../config/config.php';
-        $appConfig = (new Application)->configPath('rinvex.composer.php');
+        $appConfig = (new Application())->configPath('rinvex.composer.php');
 
         // Cache and return the loaded configuration
         return self::$configCache = is_file($appConfig) ? require $appConfig : (is_file($vendorConfig) ? require $vendorConfig : []);
