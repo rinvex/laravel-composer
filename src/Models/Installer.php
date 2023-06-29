@@ -5,13 +5,8 @@ declare(strict_types=1);
 namespace Rinvex\Composer\Models;
 
 use Composer\Composer;
-use Illuminate\Support\Arr;
 use Composer\IO\IOInterface;
 use Composer\Util\Filesystem;
-use Rinvex\Composer\Models\Config;
-use React\Promise\PromiseInterface;
-use Rinvex\Composer\Models\Manifest;
-use Illuminate\Foundation\Application;
 use Composer\Package\PackageInterface;
 use Composer\Installer\BinaryInstaller;
 use Composer\Installer\LibraryInstaller;
@@ -72,7 +67,7 @@ class Installer extends LibraryInstaller
     {
         $path = $package->getPrettyName();
 
-        return Config::get($package->getType().'.path').($path != '' ? DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR) : '');
+        return Config::get($package->getType().'.path').($path !== '' ? DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR) : '');
     }
 
     /**
@@ -139,7 +134,7 @@ class Installer extends LibraryInstaller
             $this->manifest->load()->remove($initial->getPrettyName())->persist();
             $this->manifest->load()->add($target->getPrettyName(), $targetModuleAttributes)->persist();
         });
-}
+    }
 
     /**
      * Uninstalls specific package.
