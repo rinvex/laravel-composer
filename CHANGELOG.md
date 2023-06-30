@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 
 
+## [v7.5.7] - 2023-06-30
+- Drop using Laravel application instance
+  - It's very early to use Laravel here and results in weird and inconsistent behavior.
+  - We can still use configurable options via environment variables, which is working fine.
+  - This package is called when composer is running, is before any Laravel features is loaded.
+
 ## [v7.5.6] - 2023-06-30
 - Fix Application instantiation app root directory path
 
@@ -163,6 +169,7 @@ This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 ## v0.0.1 - 2018-02-18
 - Tag first release
 
+[v7.5.7]: https://github.com/rinvex/laravel-composer/compare/v7.5.6...v7.5.7
 [v7.5.6]: https://github.com/rinvex/laravel-composer/compare/v7.5.5...v7.5.6
 [v7.5.5]: https://github.com/rinvex/laravel-composer/compare/v7.5.4...v7.5.5
 [v7.5.4]: https://github.com/rinvex/laravel-composer/compare/v7.5.3...v7.5.4
