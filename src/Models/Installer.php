@@ -22,13 +22,6 @@ class Installer extends LibraryInstaller
     public $manifest;
 
     /**
-     * Laravel application instance.
-     *
-     * @var \Illuminate\Foundation\Application
-     */
-    public $laravel;
-
-    /**
      * Initializes library installer.
      *
      * @param IOInterface     $io

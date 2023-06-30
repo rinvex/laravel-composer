@@ -48,20 +48,6 @@ Rinvex Cortex modules and extensions are installed into the configurable paths, 
 
 So if you're building a new Rinvex Cortex module, you have to add the appropriate composer package type in your package's `composer.json`, such as `"type": "cortex-module"` for modules, and `"type": "cortex-extension"` for extensions, and then run `composer install` or `composer update` at your application root directory, and **Rinvex Composer** Installer will detect the package type and install it to the appropriate directory.
 
-### Custom Paths
-
-This is a powerful feature available for more flexibility and control over package installation paths. To use custom paths, your package's `composer.json` file must have the following attributes:
-```json
-"type": "cortex-custom",
-"require": {
-    "rinvex/laravel-composer": "^7.0.0"
-},
-"extra": {
-    "path": "custom/path/"
-}
-```
-Then you've to run `composer install` or `composer update` at your application root directory, and **Rinvex Composer** Installer will detect the custom package type and look for `extra.path`. If it finds it; the package will be installed to that custom directory.
-
 
 ## Resources
 

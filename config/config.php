@@ -5,9 +5,8 @@ declare(strict_types=1);
 return [
 
     'cortex-module' => [
-        'path' => app()->path('modules'),
-        // We're not using `app()->getCachedModulesPath()` approach because it's too early to call, service providers are not registered yet!
-        'manifest' => app()->bootstrapPath('cache'.DIRECTORY_SEPARATOR.'modules.php'),
+        'path' => env('APP_MODULES_PATH', __DIR__.'/../../../../app/modules'),
+        'manifest' => env('APP_MODULES_CACHE', __DIR__.'/../../../../bootstrap/cache/modules.php'),
 
         'always_active' => [
             'cortex/foundation',
@@ -16,8 +15,8 @@ return [
     ],
 
     'cortex-extension' => [
-        'path' => app()->path('extensions'),
-        'manifest' => app()->bootstrapPath('cache'.DIRECTORY_SEPARATOR.'extensions.php'),
+        'path' => env('APP_EXTENSIONS_PATH', __DIR__.'/../../../../app/extensions'),
+        'manifest' => env('APP_EXTENSIONS_CACHE', __DIR__.'/../../../../bootstrap/cache/extensions.php'),
 
         'always_active' => [],
     ],
