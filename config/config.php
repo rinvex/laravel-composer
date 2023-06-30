@@ -6,7 +6,7 @@ return [
 
     'cortex-module' => [
         'path' => app()->path('modules'),
-        // We're not using `app()->getCachedModulesPath()` approach because it's too early to call!
+        // We're not using `app()->getCachedModulesPath()` approach because it's too early to call, service providers are not registered yet!
         'manifest' => app()->bootstrapPath('cache'.DIRECTORY_SEPARATOR.'modules.php'),
 
         'always_active' => [
