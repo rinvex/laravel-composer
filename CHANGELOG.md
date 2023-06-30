@@ -5,6 +5,9 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 
 
+## [v7.5.9] - 2023-06-30
+- Fix absolute root path in case modules/extensions directories doesn't exist
+
 ## [v7.5.8] - 2023-06-30
 - Use canonicalized absolute pathnames for resources
 - Return canonicalized absolute pathname
@@ -173,6 +176,7 @@ This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 ## v0.0.1 - 2018-02-18
 - Tag first release
 
+[v7.5.9]: https://github.com/rinvex/laravel-composer/compare/v7.5.8...v7.5.9
 [v7.5.8]: https://github.com/rinvex/laravel-composer/compare/v7.5.7...v7.5.8
 [v7.5.7]: https://github.com/rinvex/laravel-composer/compare/v7.5.6...v7.5.7
 [v7.5.6]: https://github.com/rinvex/laravel-composer/compare/v7.5.5...v7.5.6
