@@ -39,6 +39,6 @@ class ComposerServiceProvider extends ServiceProvider
     public function boot()
     {
         // Register paths to be published by the publish command.
-        $this->publishConfigFrom(__DIR__.'/../../config/config.php', 'rinvex/composer');
+        $this->publishConfigFrom(realpath(__DIR__.'/../../config/config.php'), 'rinvex/composer');
     }
 }
