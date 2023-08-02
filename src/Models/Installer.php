@@ -117,8 +117,8 @@ class Installer extends LibraryInstaller
         $promise = parent::update($repo, $initial, $target);
 
         return $promise->then(function () use ($initial, $target) {
+            $isAlwaysActive = $this->isAlwaysActive($target);
             $initialModule = $this->manifest->get($target->getPrettyName());
-            $isAlwaysActive = $this->isAlwaysActive($target->getPrettyName());
 
             $targetModuleAttributes = $target->getType() === 'cortex-extension'
                 ? ['active' => $initialModule['active'] ?? $isAlwaysActive, 'autoload' => $initialModule['autoload'] ?? $isAlwaysActive, 'version' => $target->getPrettyVersion(), 'extends' => is_array($extra = $target->getExtra()) ? ($extra['cortex']['extends'] ?? null) : null]
