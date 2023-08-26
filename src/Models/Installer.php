@@ -153,7 +153,7 @@ class Installer extends LibraryInstaller
                         'active' => $initialModule['active'] ?? $isAlwaysActive,
                         'autoload' => $initialModule['autoload'] ?? $isAlwaysActive,
                         'version' => $target->getPrettyVersion(),
-                        'extends' => is_array($extra = $target->getExtra()) ? ($extra['cortex']['extends'] ?? null) : null
+                        'extends' => is_array($extra = $target->getExtra()) ? ($extra['cortex']['extends'] ?? null) : null,
                     ];
                     break;
                 case 'cortex-module':
@@ -161,7 +161,7 @@ class Installer extends LibraryInstaller
                     $targetModuleAttributes = [
                         'active' => $initialModule['active'] ?? $isAlwaysActive,
                         'autoload' => $initialModule['autoload'] ?? $isAlwaysActive,
-                        'version' => $target->getPrettyVersion()
+                        'version' => $target->getPrettyVersion(),
                     ];
                     break;
             }
