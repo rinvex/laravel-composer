@@ -18,13 +18,6 @@ class Plugin implements PluginInterface
     protected $installers;
 
     /**
-     * The composer extension installer instance.
-     *
-     * @var \Rinvex\Composer\Models\Installer
-     */
-    protected $extensionInstaller;
-
-    /**
      * Apply plugin modifications to Composer.
      *
      * @param Composer    $composer
