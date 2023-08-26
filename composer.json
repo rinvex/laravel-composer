@@ -1,6 +1,6 @@
 {
     "name": "rinvex/laravel-composer",
-    "description": "Rinvex Composer is an intuitive package that utilizes Composer Plugin API to support additional actions during installation, such as installing packages outside of the default vendor library and running custom scripts during install, update, and uninstall processes.",
+    "description": "Rinvex Composer is an intuitive package that leverages the Composer Plugin API, offering enhanced installation features, that allow packages to be installed outside the standard vendor directory and executing custom scripts during the install, update, and uninstall phases.",
     "type": "composer-plugin",
     "keywords": [
         "rinvex",
