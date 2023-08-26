@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 
 
+## [v7.6.0] - 2023-08-26
+- Update readme documentation
+- Add support for cortex-theme new package types
+- Use realpath to return canonicalized absolute pathnames
+- Remove useless code
+
 ## [v7.5.11] - 2023-08-02
 - Fix isAlwaysActive parameter issue
 
@@ -182,6 +188,7 @@ This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 ## v0.0.1 - 2018-02-18
 - Tag first release
 
+[v7.6.0]: https://github.com/rinvex/laravel-composer/compare/v7.5.11...v7.6.0
 [v7.5.11]: https://github.com/rinvex/laravel-composer/compare/v7.5.10...v7.5.11
 [v7.5.10]: https://github.com/rinvex/laravel-composer/compare/v7.5.9...v7.5.10
 [v7.5.9]: https://github.com/rinvex/laravel-composer/compare/v7.5.8...v7.5.9
