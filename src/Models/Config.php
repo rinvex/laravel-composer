@@ -30,8 +30,8 @@ class Config
         // Otherwise, load the configuration from file
         // Paths are hard-coded here because vendor config files are not loaded yet;
         // And both service providers & Laravel Application instance are not fully loaded too!
-        $vendorConfig = __DIR__.'/../../config/config.php';
-        $appConfig = __DIR__.'/../../../../../config/rinvex.composer.php';
+        $vendorConfig = realpath(__DIR__.'/../../config/config.php');
+        $appConfig = realpath(__DIR__.'/../../../../../config/rinvex.composer.php');
 
         // Cache and return the loaded configuration
         return self::$configCache = is_file($appConfig) ? require $appConfig : (is_file($vendorConfig) ? require $vendorConfig : []);
