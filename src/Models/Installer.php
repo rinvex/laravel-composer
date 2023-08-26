@@ -92,9 +92,30 @@ class Installer extends LibraryInstaller
         return $promise->then(function () use ($package) {
             $isAlwaysActive = $this->isAlwaysActive($package);
 
-            $attributes = $package->getType() === 'cortex-extension'
-                ? ['active' => $isAlwaysActive, 'autoload' => $isAlwaysActive, 'version' => $package->getPrettyVersion(), 'extends' => is_array($extra = $package->getExtra()) ? ($extra['cortex']['extends'] ?? null) : null]
-                : ['active' => $isAlwaysActive, 'autoload' => $isAlwaysActive, 'version' => $package->getPrettyVersion()];
+            switch ($package->getType()) {
+                case 'cortex-theme':
+                    $attributes = [
+                        'active' => $isAlwaysActive,
+                        'version' => $package->getPrettyVersion(),
+                    ];
+                    break;
+                case 'cortex-extension':
+                    $attributes = [
+                        'active' => $isAlwaysActive,
+                        'autoload' => $isAlwaysActive,
+                        'version' => $package->getPrettyVersion(),
+                        'extends' => is_array($extra = $package->getExtra()) ? ($extra['cortex']['extends'] ?? null) : null,
+                    ];
+                    break;
+                case 'cortex-module':
+                default:
+                    $attributes = [
+                        'active' => $isAlwaysActive,
+                        'autoload' => $isAlwaysActive,
+                        'version' => $package->getPrettyVersion(),
+                    ];
+                    break;
+            }
 
             $this->manifest->load()->add($package->getPrettyName(), $attributes)->persist();
         });
@@ -120,9 +141,30 @@ class Installer extends LibraryInstaller
             $isAlwaysActive = $this->isAlwaysActive($target);
             $initialModule = $this->manifest->get($target->getPrettyName());
 
-            $targetModuleAttributes = $target->getType() === 'cortex-extension'
-                ? ['active' => $initialModule['active'] ?? $isAlwaysActive, 'autoload' => $initialModule['autoload'] ?? $isAlwaysActive, 'version' => $target->getPrettyVersion(), 'extends' => is_array($extra = $target->getExtra()) ? ($extra['cortex']['extends'] ?? null) : null]
-                : ['active' => $initialModule['active'] ?? $isAlwaysActive, 'autoload' => $initialModule['autoload'] ?? $isAlwaysActive, 'version' => $target->getPrettyVersion()];
+            switch ($target->getType()) {
+                case 'cortex-theme':
+                    $targetModuleAttributes = [
+                        'active' => $isAlwaysActive,
+                        'version' => $target->getPrettyVersion(),
+                    ];
+                    break;
+                case 'cortex-extension':
+                    $targetModuleAttributes = [
+                        'active' => $initialModule['active'] ?? $isAlwaysActive,
+                        'autoload' => $initialModule['autoload'] ?? $isAlwaysActive,
+                        'version' => $target->getPrettyVersion(),
+                        'extends' => is_array($extra = $target->getExtra()) ? ($extra['cortex']['extends'] ?? null) : null
+                    ];
+                    break;
+                case 'cortex-module':
+                default:
+                    $targetModuleAttributes = [
+                        'active' => $initialModule['active'] ?? $isAlwaysActive,
+                        'autoload' => $initialModule['autoload'] ?? $isAlwaysActive,
+                        'version' => $target->getPrettyVersion()
+                    ];
+                    break;
+            }
 
             $this->manifest->load()->remove($initial->getPrettyName())->persist();
             $this->manifest->load()->add($target->getPrettyName(), $targetModuleAttributes)->persist();

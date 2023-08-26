@@ -23,4 +23,11 @@ return [
         'always_active' => [],
     ],
 
+    'cortex-theme' => [
+        'path' => env('APP_THEMES_PATH', "{$rootPath}/app/themes"),
+        'manifest' => env('APP_THEMES_CACHE', "{$rootPath}/bootstrap/cache/themes.php"),
+
+        'always_active' => [],
+    ],
+
 ];
