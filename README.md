@@ -1,14 +1,12 @@
 # Rinvex Composer
 
-**Rinvex Composer** is an intuitive package that utilizes Composer Plugin API to support additional actions during installation, such as installing packages outside of the default vendor library and running custom scripts during install, update, and uninstall processes.
+**Rinvex Composer** is an intuitive package that leverages the Composer Plugin API, offering enhanced installation features, that allow packages to be installed outside the standard vendor directory and executing custom scripts during the install, update, and uninstall phases.
 
 [![Packagist](https://img.shields.io/packagist/v/rinvex/laravel-composer.svg?label=Packagist&style=flat-square)](https://packagist.org/packages/rinvex/laravel-composer)
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/rinvex/laravel-composer.svg?label=Scrutinizer&style=flat-square)](https://scrutinizer-ci.com/g/rinvex/laravel-composer/)
 [![Travis](https://img.shields.io/travis/rinvex/laravel-composer.svg?label=TravisCI&style=flat-square)](https://travis-ci.org/rinvex/laravel-composer)
 [![StyleCI](https://styleci.io/repos/77618130/shield)](https://styleci.io/repos/77618130)
 [![License](https://img.shields.io/packagist/l/rinvex/laravel-composer.svg?label=License&style=flat-square)](https://github.com/rinvex/laravel-composer/blob/develop/LICENSE)
-
-**Rinvex Composer** also handles any module specific install/uninstall logic, so if your custom **cortext-module** contains for example migrations and/or seeds, it will be automatically executed upon composer installation.
 
 
 ## Installation
@@ -28,25 +26,29 @@
 
 ## Usage
 
-As it should be clear, the main purpose of this package is to modify composer's behaviour so packages of custom types could be installed in directories other than the default `vendor`. This is done by utilizing Composer Plugin API, and the package comes with a built-in plugin that handles the installation of Rinvex Cortex modules and extensions.
+The main purpose of this package is to adjust Composer's default behavior, allowing custom packages to install outside the `vendor` directory. It uses the Composer Plugin API and has built-in support for Rinvex Cortex modules, extensions, and themes.
 
 ### Supported Package Types
 
+- cortex-theme
 - cortex-module
 - cortex-extension
 
 > **Notes:**
 > - Checkout Composer's [Custom Installers](https://github.com/composer/composer/blob/master/doc/articles/custom-installers.md)
-> - Additional custom package types can be added through the config file. The config file is published to `config/rinvex.composer.php` and contains detailed examples custom package types.
+> - You can add more custom package types via the config file at `config/rinvex.composer.php`. This file provides examples of custom package types. To understand how it works, consider examining the [composer plugin](src/Models/Plugin.php) logic.
 
 ### Basic Usage
 
-Rinvex Cortex modules and extensions are installed into the configurable paths, so you can install them anywhere you want. By default, the following paths are configured:
+Rinvex Cortex modules, extensions and themes are installed to customizable paths, allowing placement wherever you prefer. The default configurations use these paths:
 
-- **`cortex-module`** - `config('rinvex.composer.cortex-modules.path')` (default: `app/modules`) 
-- **`cortex-extension`** - `config('rinvex.composer.cortex-extensions.path')` (default: `app/extensions`)
+- **`cortex-theme`** - `config('rinvex.composer.cortex-theme.path')` (default: `app/themes`) 
+- **`cortex-module`** - `config('rinvex.composer.cortex-module.path')` (default: `app/modules`) 
+- **`cortex-extension`** - `config('rinvex.composer.cortex-extension.path')` (default: `app/extensions`)
 
-So if you're building a new Rinvex Cortex module, you have to add the appropriate composer package type in your package's `composer.json`, such as `"type": "cortex-module"` for modules, and `"type": "cortex-extension"` for extensions, and then run `composer install` or `composer update` at your application root directory, and **Rinvex Composer** Installer will detect the package type and install it to the appropriate directory.
+When creating a new Rinvex Cortex module, extension, or theme, specify the correct composer package type in your package's `composer.json`. Use `"type": "cortex-module"` for modules, `"type": "cortex-extension"` for extensions, and `"type": "cortex-theme"` for themes.
+
+Afterward, execute `composer install` or `composer update` in your application's root directory. The Rinvex Composer Installer will identify the package type and place it in the correct directory.
 
 
 ## Resources

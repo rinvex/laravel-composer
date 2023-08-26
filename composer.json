@@ -13,7 +13,8 @@
         "installer",
         "extension",
         "package",
-        "plugin"
+        "plugin",
+        "theme"
     ],
     "license": "MIT",
     "homepage": "https://rinvex.com",
