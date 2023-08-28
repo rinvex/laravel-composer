@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 
 
+## [v7.6.2] - 2023-08-28
+- Remove module `autoload` attribute
+  - This is not needed anymore, as the `active` attribute is enough
+- Return contents on manifest persistence
+
 ## [v7.6.1] - 2023-08-27
 - Revert "Use realpath to return canonicalized absolute pathnames"
 
@@ -191,6 +196,7 @@ This project adheres to [Semantic Versioning](CONTRIBUTING.md).
 ## v0.0.1 - 2018-02-18
 - Tag first release
 
+[v7.6.2]: https://github.com/rinvex/laravel-composer/compare/v7.6.1...v7.6.2
 [v7.6.1]: https://github.com/rinvex/laravel-composer/compare/v7.6.0...v7.6.1
 [v7.6.0]: https://github.com/rinvex/laravel-composer/compare/v7.5.11...v7.6.0
 [v7.5.11]: https://github.com/rinvex/laravel-composer/compare/v7.5.10...v7.5.11
