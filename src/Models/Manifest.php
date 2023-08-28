@@ -136,7 +136,7 @@ class Manifest
         rename($tempPath, $this->path);
 
         $this->invalidateOpcache();
-        
+
         return $this->content;
     }
 
