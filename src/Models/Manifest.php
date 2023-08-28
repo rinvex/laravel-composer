@@ -113,9 +113,9 @@ class Manifest
      *
      * @throws \Exception
      *
-     * @return void
+     * @return array
      */
-    public function persist(): void
+    public function persist(): array
     {
         if (! is_writable($dirname = dirname($this->path))) {
             throw new Exception("The {$dirname} directory must be present and writable.");
@@ -136,6 +136,8 @@ class Manifest
         rename($tempPath, $this->path);
 
         $this->invalidateOpcache();
+        
+        return $this->content;
     }
 
     /**
